@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/item_food"
+            android:title="@string/menu_nav_item_food"
+            android:icon="@drawable/food"/>
+
+    <item
+            android:id="@+id/item_cbc"
+            android:title="@string/menu_nav_item_news"
+            android:icon="@drawable/news"
+    />
+    <item
+            android:id="@+id/item_movie"
+            android:title="@string/menu_nav_item_movie"
+            android:icon="@drawable/movie"
+    />
+    <item
+            android:id="@+id/item_bus"
+            android:title="@string/menu_nav_item_bus"
+            android:icon="@drawable/bus"
+    />
+
+</menu>
