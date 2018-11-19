@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MAD9132_AndroidFinal</string>
+    <string name="group_name">Group Awesome</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="menu_nav_item_food">Food</string>
+    <string name="menu_nav_item_news">CBC News</string>
+    <string name="menu_nav_item_movie">Movies</string>
+    <string name="menu_nav_item_bus">OCTranspo Buses</string>
+</resources>
