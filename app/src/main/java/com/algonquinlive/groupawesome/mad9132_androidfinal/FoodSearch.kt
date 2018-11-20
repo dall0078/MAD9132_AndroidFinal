@@ -21,6 +21,8 @@ class FoodSearch : AppCompatActivity() {
 
     lateinit var listAdapter: FoodAdapter
 
+    var searchIsSucessful = false
+
     data class Food(var name: String?, var calContent: String?, var fatContent: String?, var tag: String?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,15 +38,20 @@ class FoodSearch : AppCompatActivity() {
         var foodAddBtn = findViewById<ImageButton>(R.id.foodAddBtn)
         foodAddBtn.setOnClickListener {
 
-            var food = Food(
-                foodName.text.toString(),
-                foodCalories.text.toString(),
-                foodFat.text.toString(),
-                null
-            )
+            if(searchIsSucessful){
 
-            favouritesListArray.add(food)
-            listAdapter.notifyDataSetChanged()
+                var food = Food(
+                    foodName.text.toString(),
+                    foodCalories.text.toString(),
+                    foodFat.text.toString(),
+                    null
+                )
+
+                favouritesListArray.add(food)
+                listAdapter.notifyDataSetChanged()
+
+                searchIsSucessful = false
+            }
         }
 
         val foodTagBtn = findViewById(R.id.foodTagEditBtn) as? ImageButton
@@ -56,7 +63,7 @@ class FoodSearch : AppCompatActivity() {
 
 
             var builder =  AlertDialog.Builder(this)
-            builder.setTitle("Add Tag")
+            builder.setTitle(R.string.food_dialog_title)
             builder.setView(foodDialogStuff) //insert view into dialog
 
             // Add the buttons

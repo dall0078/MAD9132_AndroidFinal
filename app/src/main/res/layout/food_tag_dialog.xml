@@ -10,24 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Which food do you want to tag?"/>
+        android:text="@string/food_tag_foodName"/>
 
     <EditText
             android:id="@+id/foodDialogAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Type here"/>
+            android:hint="@string/food_tag_textHint"/>
 
     <TextView
             android:id="@+id/foodDialogTagName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Give a tag name"/>
+            android:text="@string/food_tag_tagName"/>
 
     <EditText
             android:id="@+id/foodDialogTagNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Type here"/>
+            android:hint="@string/food_tag_textHint"/>
 
 </LinearLayout>

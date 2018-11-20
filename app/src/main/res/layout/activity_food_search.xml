@@ -28,7 +28,7 @@
             android:textSize="30dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/foodSearchProgress"
-            android:text="Name:"
+            android:text="@string/food_search_name"
             android:layout_marginTop="20dp"/>
 
     <TextView
@@ -38,7 +38,7 @@
             android:textSize="30dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/foodName"
-            android:text="Calories:"/>
+            android:text="@string/food_search_calories"/>
 
     <ImageButton
             android:id="@+id/foodAddBtn"
@@ -54,7 +54,7 @@
             android:layout_width="284dp"
             android:layout_height="wrap_content"
             android:textSize="30dp"
-            android:text="Fat"
+            android:text="@string/food_search_fat"
             android:layout_below="@+id/foodCalories"/>
 
     <TextView
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:textSize="30dp"
             android:layout_below="@+id/foodAddBtn"
-            android:text="Favourites"
+            android:text="@string/food_search_favorites_heading"
             android:textAlignment="center"
             android:textStyle="bold"
             android:layout_marginTop="20dp"/>

@@ -12,34 +12,38 @@
             android:id="@+id/foodNameDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:hint="@string/food_details_textHint_FoodName"/>
 
     <TextView
             android:id="@+id/foodCaloriesContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="30dp"
-            android:layout_below="@id/foodNameDetails"/>
+            android:layout_below="@id/foodNameDetails"
+            android:hint="@string/food_details_textHint_calories"/>
 
     <TextView
             android:id="@+id/foodFatContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/foodCaloriesContent"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:hint="@string/food_details_textHint_fat"/>
 
     <TextView
             android:id="@+id/foodTagDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/foodFatContent"
-            android:textSize="30dp"/>
+            android:textSize="30dp"
+            android:hint="@string/food_details_texthint_tagName"/>
 
     <Button
             android:id="@+id/foodDelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="@string/food_details_delete"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/foodTagDetails"
             android:layout_marginTop="15dp"/>
@@ -48,7 +52,7 @@
             android:id="@+id/foodCancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/food_details_cancel"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/foodTagDetails"
             android:layout_marginTop="15dp"/>
