@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FoodDetails"
+        android:padding="15dp">
+
+    <TextView
+            android:id="@+id/foodNameDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"/>
+
+    <TextView
+            android:id="@+id/foodCaloriesContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_below="@id/foodNameDetails"/>
+
+    <TextView
+            android:id="@+id/foodFatContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/foodCaloriesContent"
+            android:textSize="30dp"/>
+
+    <TextView
+            android:id="@+id/foodTagDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/foodFatContent"
+            android:textSize="30dp"/>
+
+    <Button
+            android:id="@+id/foodDelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/foodTagDetails"
+            android:layout_marginTop="15dp"/>
+
+    <Button
+            android:id="@+id/foodCancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/foodTagDetails"
+            android:layout_marginTop="15dp"/>
+
+</RelativeLayout>

@@ -7,4 +7,6 @@
     <string name="menu_nav_item_news">CBC News</string>
     <string name="menu_nav_item_movie">Movies</string>
     <string name="menu_nav_item_bus">OCTranspo Buses</string>
+    <string name="food_dialog_ok">Ok</string>
+    <string name="food_dialog_cancel">Cancel</string>
 </resources>
