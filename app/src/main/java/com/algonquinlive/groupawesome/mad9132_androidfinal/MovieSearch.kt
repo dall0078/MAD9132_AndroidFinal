@@ -14,6 +14,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Toast
 import android.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_movie_search.*
 
@@ -46,6 +48,12 @@ class MovieSearch : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_search)
+
+        val addButton = findViewById<Button>(R.id.addMovieButton)
+
+        addButton.setOnClickListener{
+            Toast.makeText(this, "So Toasty", Toast.LENGTH_LONG).show()
+        }
 
         //----------- Set ToolBar -------------//
 
