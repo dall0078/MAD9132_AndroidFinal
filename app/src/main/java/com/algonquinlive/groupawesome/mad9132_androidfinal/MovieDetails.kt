@@ -18,6 +18,7 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
 
 class MovieDetails : AppCompatActivity() {
 
@@ -64,7 +65,8 @@ class MovieDetails : AppCompatActivity() {
         var movieRuntime: String? = null
         var movieStarring: String? = null
         var moviePlot: String? = null
-        var moviePosterUrl: URL? = null
+        var userQuery: String? = null
+        var moviePosterUrl = "http://www.omdbapi.com/?apikey=6c9862c2&r=xml&t=" + URLEncoder.encode(userQuery, "UTF-8")
 
         var iconName: String? = null
 
@@ -90,6 +92,8 @@ class MovieDetails : AppCompatActivity() {
 
             while (xpp.eventType != XmlPullParser.END_DOCUMENT) {
 
+
+                //NEED TO GET API WORKING TO VALIDATE NAMING SCHEME FOR JSON PULL *FIXED*
                 when (xpp.eventType) {
                     XmlPullParser.START_TAG -> {
                         if (xpp.name.equals("movie")) {
@@ -97,16 +101,17 @@ class MovieDetails : AppCompatActivity() {
                             //title accounts for 20% progress
                             progress += 20
                         } else if (xpp.name.equals("movie")) {
-                            movieRelease = xpp.getAttributeValue(null, "release")
-                            movieRating = xpp.getAttributeValue(null, "rating")
+                            movieRelease = xpp.getAttributeValue(null, "released")
+                            movieRating = xpp.getAttributeValue(null, "rated")
                             movieRuntime = xpp.getAttributeValue(null, "runtime")
+                            moviePlot = xpp.getAttributeValue(null, "plot")
                             //movie data accounts for 60% progress
                             progress += 60
                         }
 
                         //Grab images
                         if (xpp.name.equals("movie")) {
-                            iconName = xpp.getAttributeValue(null, "icon")
+                            iconName = xpp.getAttributeValue(null, "poster")
 
                             if (fileExistence("iconName.png")) {
 
@@ -120,8 +125,8 @@ class MovieDetails : AppCompatActivity() {
 
 
                             } else {
-                                var moviePosterUrl = "https://omdbapi.com/img/w/$iconName.png"
-                                var bitmp = getImage(moviePosterUrl)
+                                moviePosterUrl = "https://omdbapi.com/img/w/$iconName.png"
+                                var bitmap = getImage(moviePosterUrl)
                                 val outputStream = openFileOutput("$iconName.png", Context.MODE_PRIVATE);
                                 imageBitmap?.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
                                 outputStream.flush()
