@@ -1,5 +1,14 @@
 package com.algonquinlive.groupawesome.mad9132_androidfinal
 
+
+//----------------------------------------------------------------//
+//                        MAD9132 Android Final
+//                       Movie Details Activity
+//                              Nov 2018
+//----------------------------------------------------------------//
+
+//Not functional, using it to store code for now
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -65,6 +74,9 @@ class MovieDetails : AppCompatActivity() {
         var movieRuntime: String? = null
         var movieStarring: String? = null
         var moviePlot: String? = null
+
+        //query variables
+        //convert url to encoded
         var userQuery: String? = null
         var moviePosterUrl = "http://www.omdbapi.com/?apikey=6c9862c2&r=xml&t=" + URLEncoder.encode(userQuery, "UTF-8")
 
@@ -74,11 +86,14 @@ class MovieDetails : AppCompatActivity() {
         var progress = 0
 
 
-
+        //9.	Each activity must use an AsyncTask to retrieve data from an http server.
         override fun doInBackground(vararg params: String): String {
 
 
 //---------------- XMLPullParserRequest and URL Fetch -----------------//
+
+            //still need to validate I manipulated API properly. Pretty Sure I Didnt.
+            //mostly boiler plate conversion from lab 6 of AndroidLabs
 
             val url = URL("http://www.omdbapi.com/?apikey=6c9862c2&r=xml")
             val urlConnection = url.openConnection() as HttpURLConnection
@@ -93,7 +108,7 @@ class MovieDetails : AppCompatActivity() {
             while (xpp.eventType != XmlPullParser.END_DOCUMENT) {
 
 
-                //NEED TO GET API WORKING TO VALIDATE NAMING SCHEME FOR JSON PULL *FIXED*
+                //*FIXED* NEED TO GET API WORKING TO VALIDATE NAMING SCHEME FOR XML PULL *FIXED*
                 when (xpp.eventType) {
                     XmlPullParser.START_TAG -> {
                         if (xpp.name.equals("movie")) {
@@ -128,7 +143,7 @@ class MovieDetails : AppCompatActivity() {
                                 moviePosterUrl = "https://omdbapi.com/img/w/$iconName.png"
                                 var bitmap = getImage(moviePosterUrl)
                                 val outputStream = openFileOutput("$iconName.png", Context.MODE_PRIVATE);
-                                imageBitmap?.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
+                                imageBitmap?.compress(Bitmap.CompressFormat.PNG, 80, outputStream)
                                 outputStream.flush()
                                 outputStream.close()
                             }
@@ -176,6 +191,7 @@ class MovieDetails : AppCompatActivity() {
         return file.exists()
     }
 
+//Need to replace try catch statements, dont exist in kotlin
 
     //------------- Get Image Functions ---------------//
     fun getImage(url: URL): Bitmap? {
