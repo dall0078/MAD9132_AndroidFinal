@@ -10,6 +10,13 @@ import android.widget.Toast
 
 class FoodDetails : AppCompatActivity() {
 
+    /*
+    * foodSnackbarMessage is used to hold the message to be displayed when snackbar is launched
+    * onCreate is a life cycle function that gets called when the application loads up
+    * foodCancelBtn is the cancel button on details page and is used to return to the food search page
+    * foodDeleteBtn is used to delete food items from favorites list
+    * */
+
     lateinit var foodSnackbarMessage:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
