@@ -28,9 +28,8 @@
         <activity android:name=".NewsList"/>
         <activity android:name=".MovieSearch"/>
         <activity android:name=".BusSearch"/>
-        <activity android:name=".NewsDetail">
-        <activity android:name=".FoodDetails">
-        </activity>
+        <activity android:name=".NewsDetail"/>
+        <activity android:name=".FoodDetails"/>
     </application>
 
 </manifest>

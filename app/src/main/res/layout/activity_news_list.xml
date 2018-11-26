@@ -9,44 +9,16 @@
                  android:visibility="invisible"
                  style="?android:attr/progressBarStyleHorizontal"/>
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/progressBar"
-                    android:id="@+id/searchResultContainer">
-        <ImageView android:layout_alignParentStart="true"
-                   android:id="@+id/searchResultImage"
-                   android:layout_width="50dp"
-                   android:layout_height="50dp"/>
-
-        <TextView android:layout_toRightOf="@id/searchResultImage"
-                  android:text="TitleText"
-                  android:id="@+id/searchResultTitle"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-
-        <TextView android:layout_below="@id/searchResultTitle"
-                  android:layout_toRightOf="@id/searchResultImage"
-                  android:id="@+id/searchResultsAuthor"
-                  android:text="AuthorText"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-
-        <ImageButton android:layout_width="40dp"
-                     android:layout_height="40dp"
-                     android:layout_alignParentEnd="true"
-                     android:src="@drawable/icons8_plus_26"/>
-    </RelativeLayout>
-
     <TextView android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_below="@id/searchResultContainer"
+              android:layout_below="@id/progressBar"
               android:id="@+id/favouritesListHeader"
-              android:text="Favourites"/>
+              android:text="Recent News"/>
 
     <ListView android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@id/favouritesListHeader"
-              android:id="@+id/addedFavouritesListView">
+              android:id="@+id/newsItemsListView">
 
     </ListView>
 
