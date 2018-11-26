@@ -1,0 +1,33 @@
+<LinearLayout
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="15dp">
+
+    <TextView
+        android:id="@+id/foodDialogQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/food_tag_foodName"/>
+
+    <EditText
+            android:id="@+id/foodDialogAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/food_tag_textHint"/>
+
+    <TextView
+            android:id="@+id/foodDialogTagName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/food_tag_tagName"/>
+
+    <EditText
+            android:id="@+id/foodDialogTagNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/food_tag_textHint"/>
+
+</LinearLayout>
