@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import kotlinx.android.synthetic.main.activity_news_list.*
 import kotlinx.android.synthetic.main.news_list_item.*
+import kotlinx.android.synthetic.main.news_list_item.view.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.net.HttpURLConnection
@@ -31,9 +32,7 @@ class NewsList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
 
-        Log.d("TEST", "TEST")
-
-        val listItems: ListView = this.addedFavouritesListView
+        val listItems: ListView = newsItemsListView
 
         val myQuery = StoryQuery()
         myQuery.execute()
@@ -52,7 +51,7 @@ class NewsList : AppCompatActivity() {
             val inflater = LayoutInflater.from(parent.context)
             val result: View
             result = inflater.inflate(R.layout.news_list_item, parent, false)
-            val storyTitle = storyListItemTitle
+            val storyTitle = result.storyListItemTitle
             val story = getItem(position)
             storyTitle.text = story?.title
 
@@ -116,6 +115,10 @@ class NewsList : AppCompatActivity() {
             }
             Log.d("Array: ", "$newsStoryArray")
             return "Done"
+        }
+
+        override fun onPostExecute(result: String?) {
+            storyAdapter.notifyDataSetChanged()
         }
     }
 }
