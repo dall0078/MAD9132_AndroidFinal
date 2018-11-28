@@ -3,10 +3,12 @@
                 android:layout_height="match_parent"
                 android:id="@+id/storyListItemContainer">
 
-    <ImageView android:layout_alignParentStart="true"
+    <WebView android:layout_alignParentStart="true"
                android:id="@+id/storyListItemImage"
-               android:layout_width="60dp"
-               android:layout_height="50dp"/>
+               android:layout_width="120dp"
+               android:layout_height="70dp"
+               android:focusable="false"
+               android:focusableInTouchMode="false"/>
 
     <TextView android:layout_toRightOf="@id/storyListItemImage"
               android:text="TitleText"
@@ -21,9 +23,4 @@
               android:text="AuthorText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
-
-    <ImageButton android:layout_width="40dp"
-                 android:layout_height="40dp"
-                 android:layout_alignParentEnd="true"
-                 android:src="@drawable/icons8_plus_26"/>
 </RelativeLayout>
