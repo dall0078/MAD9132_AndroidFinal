@@ -7,14 +7,19 @@ import android.graphics.Bitmap
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import kotlinx.android.synthetic.main.activity_news_list.*
-import kotlinx.android.synthetic.main.news_list_item.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
@@ -23,7 +28,7 @@ import java.net.URL
 import java.util.regex.Pattern
 
 
-class NewsList : AppCompatActivity() {
+class NewsList : AppCompatActivity(){
 
     var newsStoryArray = ArrayList<Story?>()
 
@@ -35,6 +40,7 @@ class NewsList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
 
+        NavigationClickHandler(this) .initializePage()
         val listItems: ListView = newsItemsListView
 
         listItems.setOnItemClickListener {_, _, position, _ ->
@@ -57,6 +63,7 @@ class NewsList : AppCompatActivity() {
         storyAdapter = NewsAdapter(this)
         listItems.adapter = storyAdapter
     }
+
 
     inner class NewsAdapter(ctx: Context): ArrayAdapter<Story>(ctx, 0) {
 
