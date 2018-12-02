@@ -1,36 +1,58 @@
 package com.algonquinlive.groupawesome.mad9132_androidfinal
 
+import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_news_detail.*
 
 class NewsDetail : AppCompatActivity() {
 
+    var receivedStory = NewsList.Story(null, null, null, null, null, null)
+    lateinit var db: SQLiteDatabase
+    lateinit var dbHelper: ArticleDatabaseHelper
+    lateinit var results: Cursor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_detail)
 
         val addFavouriteButton = news_detail_addToFavButton
+
+        dbHelper = ArticleDatabaseHelper()
+        db = dbHelper.writableDatabase
+
         addFavouriteButton.setOnClickListener {
+            val values = ContentValues().apply {
+                put(FavouriteArticleContract.FavArticle.COLUMN_NAME_TITLE, receivedStory.title)
+                put(FavouriteArticleContract.FavArticle.COLUMN_NAME_AUTHOR, receivedStory.author)
+                put(FavouriteArticleContract.FavArticle.COLUMN_NAME_DATE, receivedStory.date)
+                put(FavouriteArticleContract.FavArticle.COLUMN_NAME_LINK, receivedStory.link)
+                put(FavouriteArticleContract.FavArticle.COLUMN_NAME_DESCRIPTION, receivedStory.description)
+                put(FavouriteArticleContract.FavArticle.COLUMN_NAME_IMAGELINK, receivedStory.imageLink)
+            }
+            db.insert(FavouriteArticleContract.FavArticle.TABLE_NAME, null, values)
             Toast.makeText(this@NewsDetail, "Added Article to Favourites", Toast.LENGTH_SHORT)
                 .show()
         }
 
         onActivityResult(50, 2, intent)
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val title = data?.getStringExtra("title")
-        val author = data?.getStringExtra("author")
-        val date = data?.getStringExtra("date")
-        val link = data?.getStringExtra("link")
-        val description = data?.getStringExtra("description")
-        val imgSrc = data?.getStringExtra("imageLink")
+        receivedStory.title = data?.getStringExtra("title")
+        receivedStory.author = data?.getStringExtra("author")
+        receivedStory.date = data?.getStringExtra("date")
+        receivedStory.link = data?.getStringExtra("link")
+        receivedStory.description = data?.getStringExtra("description")
+        receivedStory.imageLink = data?.getStringExtra("imageLink")
 
         val articleTitleView = articleTitle
         val articleAuthorView = authorName
@@ -39,16 +61,57 @@ class NewsDetail : AppCompatActivity() {
         val articleDescView = articleContent
         val articleImageView = articleImage
 
-        articleTitleView.text = title
-        articleAuthorView.text = author
-        articleDateView.text = date
-        articleLinkView.text = link
-        articleDescView.text = description
+        articleTitleView.text = receivedStory.title
+        articleAuthorView.text = receivedStory.author
+        articleDateView.text = receivedStory.date
+        articleLinkView.text = receivedStory.link
+        articleDescView.text = receivedStory.description
 
-        val htmlString = "<img src='$imgSrc'/>"
+        val htmlString = "<img src='${receivedStory.imageLink}'/>"
 
 //        articleImageView.loadData(htmlString, "text/html", null)
         articleImageView.loadDataWithBaseURL(null, "<style>img{display: inline;max-height: 100%;max-width: 100%;}</style>" + htmlString, "text/html", "UTF-8", null);
+
+    }
+
+    val DATABASE_NAME = "FavouriteArticles.db"
+    val VERSION_NUM = 1
+
+    object FavouriteArticleContract {
+        // Table contents are grouped together in an anonymous object.
+        object FavArticle : BaseColumns {
+            const val TABLE_NAME = "Articles"
+            const val COLUMN_NAME_TITLE = "title"
+            const val COLUMN_NAME_AUTHOR = "author"
+            const val COLUMN_NAME_DATE = "date"
+            const val COLUMN_NAME_LINK = "link"
+            const val COLUMN_NAME_DESCRIPTION = "description"
+            const val COLUMN_NAME_IMAGELINK = "imageLink"
+        }
+    }
+
+    private val SQL_CREATE_ENTRIES =
+        "CREATE TABLE ${FavouriteArticleContract.FavArticle.TABLE_NAME} (" +
+                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
+                "${FavouriteArticleContract.FavArticle.COLUMN_NAME_TITLE} TEXT," +
+                "${FavouriteArticleContract.FavArticle.COLUMN_NAME_AUTHOR} TEXT," +
+                "${FavouriteArticleContract.FavArticle.COLUMN_NAME_DATE} TEXT," +
+                "${FavouriteArticleContract.FavArticle.COLUMN_NAME_LINK} TEXT," +
+                "${FavouriteArticleContract.FavArticle.COLUMN_NAME_DESCRIPTION} TEXT," +
+                "${FavouriteArticleContract.FavArticle.COLUMN_NAME_IMAGELINK} TEXT)"
+
+    private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${FavouriteArticleContract.FavArticle.TABLE_NAME}"
+
+    inner class ArticleDatabaseHelper : SQLiteOpenHelper(this@NewsDetail, DATABASE_NAME, null, VERSION_NUM) {
+        override fun onCreate(db: SQLiteDatabase) {
+            db.execSQL(SQL_CREATE_ENTRIES) //create the table
+        }
+
+        override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+            db.execSQL(SQL_DELETE_ENTRIES) //deletes your old data
+            //create new table
+            onCreate(db)
+        }
 
     }
 }
