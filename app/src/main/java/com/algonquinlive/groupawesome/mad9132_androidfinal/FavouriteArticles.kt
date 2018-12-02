@@ -20,8 +20,8 @@ class FavouriteArticles : AppCompatActivity() {
 
     lateinit var favouritesAdapter: FavouritesAdapter
     var favouriteArticlesArray = mutableListOf<NewsList.Story>()
-    var storyRow = NewsList.Story(null, null, null, null, null, null)
-    lateinit var cursor: Cursor
+    private var storyRow = NewsList.Story(null, null, null, null, null, null)
+    private lateinit var cursor: Cursor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
