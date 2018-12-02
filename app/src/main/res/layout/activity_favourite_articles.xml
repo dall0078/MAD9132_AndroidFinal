@@ -13,7 +13,7 @@
               android:id="@+id/favouritesListHeader"
               android:text="Favourites"/>
 
-    <ListView android:id="@+id/favouritesListView"
+    <ListView android:id="@+id/activity_favourite_articles_favouritesListView"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
     </ListView>

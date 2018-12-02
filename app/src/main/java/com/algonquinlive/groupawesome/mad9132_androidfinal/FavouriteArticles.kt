@@ -27,7 +27,7 @@ class FavouriteArticles : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite_articles)
 
-        val favouritesListView = favouritesListView
+        val favouritesListView = activity_favourite_articles_favouritesListView
 
         val dbHelper = ArticleDatabaseHelper()
         val db = dbHelper.readableDatabase
