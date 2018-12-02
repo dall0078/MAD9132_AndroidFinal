@@ -30,6 +30,8 @@
         <activity android:name=".BusSearch"/>
         <activity android:name=".NewsDetail"/>
         <activity android:name=".FoodDetails"/>
+        <activity android:name=".FavouriteArticles">
+        </activity>
     </application>
 
 </manifest>
