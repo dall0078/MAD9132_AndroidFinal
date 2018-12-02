@@ -13,8 +13,9 @@
               android:id="@+id/favouritesListHeader"
               android:text="Favourites"/>
 
-    <ListView android:layout_width="match_parent" android:layout_height="wrap_content">
-
+    <ListView android:id="@+id/favouritesListView"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
     </ListView>
 
 </RelativeLayout>

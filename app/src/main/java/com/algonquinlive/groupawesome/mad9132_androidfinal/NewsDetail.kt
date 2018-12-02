@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_news_detail.*
 
 class NewsDetail : AppCompatActivity() {
 
-    lateinit var receivedStory: NewsList.Story
+    var receivedStory = NewsList.Story(null, null, null, null, null, null)
     lateinit var db: SQLiteDatabase
     lateinit var dbHelper: ArticleDatabaseHelper
     lateinit var results: Cursor
