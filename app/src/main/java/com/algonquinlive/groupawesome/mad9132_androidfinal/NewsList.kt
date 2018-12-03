@@ -7,10 +7,9 @@ import android.graphics.Bitmap
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import kotlinx.android.synthetic.main.activity_news_list.*
@@ -34,6 +33,9 @@ class NewsList : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
 
+        val toolBar = nav_toolbar
+        setSupportActionBar(toolBar)
+
         NavigationClickHandler(this) .initializePage()
         val listItems: ListView = newsItemsListView
 
@@ -56,6 +58,58 @@ class NewsList : AppCompatActivity(){
 
         storyAdapter = NewsAdapter(this)
         listItems.adapter = storyAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.news_list_tool_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+
+            R.id.favourite_news_toolbar_menu_button -> {
+                var intent = Intent(this, FavouriteArticles::class.java)
+                startActivity(intent)
+            }
+
+            R.id.foodHelpIcon -> {
+
+                var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
+
+                var builder =  AlertDialog.Builder(this)
+                builder.setTitle("About Food Analysis")
+                builder.setView(dialogStuff) //insert view into dialog
+
+                // Add the buttons
+                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+
+                // Create the AlertDialog
+                var dialog = builder.create()
+                dialog.show()
+            }
+
+            R.id.item_cbc ->{
+
+                var intent = Intent(this, NewsList::class.java)
+                startActivity(intent)
+            }
+
+            R.id.item_movie ->{
+
+                var intent = Intent(this, MovieSearch::class.java)
+                startActivity(intent)
+            }
+
+            R.id.item_bus ->{
+
+                var intent = Intent(this, BusSearch::class.java)
+                startActivity(intent)
+            }
+
+        }
+        return true
     }
 
 

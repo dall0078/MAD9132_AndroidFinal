@@ -13,13 +13,19 @@
     <TextView android:layout_toRightOf="@id/storyListItemImage"
               android:text="TitleText"
               android:id="@+id/storyListItemTitle"
+              android:paddingLeft="6dp"
+              android:paddingRight="6dp"
               android:layout_width="280dp"
+              android:textColor="#131313"
               android:layout_height="wrap_content"/>
 
 
     <TextView android:layout_below="@id/storyListItemTitle"
               android:layout_toRightOf="@id/storyListItemImage"
               android:id="@+id/storyListItemAuthor"
+              android:paddingLeft="6dp"
+              android:paddingRight="6dp"
+              android:paddingTop="6dp"
               android:text="AuthorText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
