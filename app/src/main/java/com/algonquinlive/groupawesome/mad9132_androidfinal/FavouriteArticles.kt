@@ -8,10 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_favourite_articles.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
@@ -26,6 +25,9 @@ class FavouriteArticles : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite_articles)
+
+        val toolBar = nav_toolbar
+        setSupportActionBar(toolBar)
 
         val favouritesListView = activity_favourite_articles_favouritesListView
 
@@ -51,6 +53,7 @@ class FavouriteArticles : AppCompatActivity() {
                 storyRow.imageLink = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_IMAGELINK))
                 favouriteArticlesArray.add(storyRow)
             }
+            cursor.close()
         }
         Log.d("List of Fav Stories", "$favouriteArticlesArray")
 
@@ -69,6 +72,58 @@ class FavouriteArticles : AppCompatActivity() {
         }
         favouritesAdapter = FavouritesAdapter(this)
         favouritesListView.adapter = favouritesAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.news_list_tool_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+
+            R.id.favourite_news_toolbar_menu_button -> {
+                var intent = Intent(this, FavouriteArticles::class.java)
+                startActivity(intent)
+            }
+
+            R.id.foodHelpIcon -> {
+
+                var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
+
+                var builder =  AlertDialog.Builder(this)
+                builder.setTitle("About Food Analysis")
+                builder.setView(dialogStuff) //insert view into dialog
+
+                // Add the buttons
+                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+
+                // Create the AlertDialog
+                var dialog = builder.create()
+                dialog.show()
+            }
+
+            R.id.item_cbc ->{
+
+                var intent = Intent(this, NewsList::class.java)
+                startActivity(intent)
+            }
+
+            R.id.item_movie ->{
+
+                var intent = Intent(this, MovieSearch::class.java)
+                startActivity(intent)
+            }
+
+            R.id.item_bus ->{
+
+                var intent = Intent(this, BusSearch::class.java)
+                startActivity(intent)
+            }
+
+        }
+        return true
     }
 
     inner class FavouritesAdapter(ctx: Context): ArrayAdapter<NewsList.Story>(ctx, 0) {
@@ -103,7 +158,7 @@ class FavouriteArticles : AppCompatActivity() {
     }
 
     val DATABASE_NAME = "FavouriteArticles.db"
-    val VERSION_NUM = 1
+    val VERSION_NUM = 3
 
     object FavouriteArticleContract {
         // Table contents are grouped together in an anonymous object.

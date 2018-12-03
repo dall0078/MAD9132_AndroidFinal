@@ -26,9 +26,8 @@
     <!--SearchBar should go first-->
     <ProgressBar android:id="@+id/progressBar"
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_height="20dp"
                  android:visibility="invisible"
-
                  style="?android:attr/progressBarStyleHorizontal"/>
 
     <TextView android:layout_width="match_parent"
@@ -41,7 +40,6 @@
               android:layout_height="wrap_content"
               android:layout_below="@id/favouritesListHeader"
               android:id="@+id/newsItemsListView">
-
     </ListView>
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

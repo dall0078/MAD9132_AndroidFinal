@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.support.v7.app.AlertDialog
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_news_detail.*
@@ -24,6 +27,9 @@ class NewsDetail : AppCompatActivity() {
         setContentView(R.layout.activity_news_detail)
 
         val addFavouriteButton = news_detail_addToFavButton
+
+        val toolBar = nav_toolbar
+        setSupportActionBar(toolBar)
 
         dbHelper = ArticleDatabaseHelper()
         db = dbHelper.writableDatabase
@@ -45,7 +51,7 @@ class NewsDetail : AppCompatActivity() {
         onActivityResult(50, 2, intent)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+//        super.onActivityResult(requestCode, resultCode, data)
 
         receivedStory.title = data?.getStringExtra("title")
         receivedStory.author = data?.getStringExtra("author")
@@ -74,8 +80,60 @@ class NewsDetail : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.news_list_tool_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+
+            R.id.favourite_news_toolbar_menu_button -> {
+                var intent = Intent(this, FavouriteArticles::class.java)
+                startActivity(intent)
+            }
+
+            R.id.foodHelpIcon -> {
+
+                var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
+
+                var builder =  AlertDialog.Builder(this)
+                builder.setTitle("About Food Analysis")
+                builder.setView(dialogStuff) //insert view into dialog
+
+                // Add the buttons
+                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+
+                // Create the AlertDialog
+                var dialog = builder.create()
+                dialog.show()
+            }
+
+            R.id.item_cbc ->{
+
+                var intent = Intent(this, NewsList::class.java)
+                startActivity(intent)
+            }
+
+            R.id.item_movie ->{
+
+                var intent = Intent(this, MovieSearch::class.java)
+                startActivity(intent)
+            }
+
+            R.id.item_bus ->{
+
+                var intent = Intent(this, BusSearch::class.java)
+                startActivity(intent)
+            }
+
+        }
+        return true
+    }
+
     val DATABASE_NAME = "FavouriteArticles.db"
-    val VERSION_NUM = 1
+    val VERSION_NUM = 3
 
     object FavouriteArticleContract {
         // Table contents are grouped together in an anonymous object.
