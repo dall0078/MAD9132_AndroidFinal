@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/foodSearchToolbar"/>
 
     <TextView
             android:id="@+id/foodName"
