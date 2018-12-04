@@ -18,9 +18,10 @@ import kotlinx.android.synthetic.main.news_list_item.view.*
 class FavouriteArticles : AppCompatActivity() {
 
     lateinit var favouritesAdapter: FavouritesAdapter
-    var favouriteArticlesArray = mutableListOf<NewsList.Story>()
-    private var storyRow = NewsList.Story(null, null, null, null, null, null)
+    var favouriteArticlesArray = mutableListOf<FavouriteStory>()
     private lateinit var cursor: Cursor
+
+    data class FavouriteStory(var title: String?, var author: String?, var date: String?, var link: String?, var imageLink: String?, var description: String?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +44,19 @@ class FavouriteArticles : AppCompatActivity() {
 
         cursor = db.query(FavouriteArticleContract.FavArticle.TABLE_NAME, projection, null, null, null, null, null)
 
+        var storyRow: FavouriteStory?
         with(cursor) {
             while (moveToNext()) {
-                storyRow.title = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_TITLE))
-                storyRow.author = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_AUTHOR))
-                storyRow.date = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_DATE))
-                storyRow.link = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_LINK))
-                storyRow.description = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_DESCRIPTION))
-                storyRow.imageLink = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_IMAGELINK))
-                favouriteArticlesArray.add(storyRow)
+                storyRow = FavouriteStory(null, null, null, null, null, null)
+                storyRow?.title = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_TITLE))
+                storyRow?.author = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_AUTHOR))
+                storyRow?.date = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_DATE))
+                storyRow?.link = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_LINK))
+                storyRow?.description = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_DESCRIPTION))
+                storyRow?.imageLink = getString(getColumnIndexOrThrow(FavouriteArticleContract.FavArticle.COLUMN_NAME_IMAGELINK))
+                favouriteArticlesArray.add(storyRow!!)
+                Log.d("Current Story", "$storyRow")
+                Log.d("Current Array:", "$favouriteArticlesArray")
             }
             cursor.close()
         }
@@ -126,7 +131,7 @@ class FavouriteArticles : AppCompatActivity() {
         return true
     }
 
-    inner class FavouritesAdapter(ctx: Context): ArrayAdapter<NewsList.Story>(ctx, 0) {
+    inner class FavouritesAdapter(ctx: Context): ArrayAdapter<FavouriteStory>(ctx, 0) {
 
         override fun getCount(): Int {
             return favouriteArticlesArray.size
@@ -138,17 +143,17 @@ class FavouriteArticles : AppCompatActivity() {
             result = inflater.inflate(R.layout.news_list_item, parent, false)
             val storyTitle = result.storyListItemTitle
             val story = getItem(position)
-            storyTitle.text = story?.title
+            storyTitle.text = story.title
 
             val articleImageView = result.storyListItemImage
-            val imgSrc = story?.imageLink
+            val imgSrc = story.imageLink
             val htmlString = "<img src='$imgSrc'/>"
             articleImageView.loadDataWithBaseURL(null, "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + htmlString, "text/html", "UTF-8", null)
 
             return result
         }
 
-        override fun getItem(position: Int): NewsList.Story? {
+        override fun getItem(position: Int): FavouriteStory {
             return favouriteArticlesArray[position]
         }
 
