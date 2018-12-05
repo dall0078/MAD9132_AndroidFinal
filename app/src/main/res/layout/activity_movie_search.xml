@@ -15,28 +15,12 @@
 
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
-            android:id="@+id/movieSearchToolbar" android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" android:layout_marginTop="0dp" android:layout_marginStart="0dp"/>
+            android:id="@+id/movieSearchToolbar"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="0dp"/>
 
-    <android.support.v4.widget.DrawerLayout
-            android:id="@+id/drawer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/movieSearchToolbar" android:layout_alignParentStart="true"
-            android:layout_marginTop="0dp" android:layout_marginStart="0dp">
-
-        <android.support.design.widget.NavigationView
-                android:id="@+id/navigationView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:headerLayout="@layout/nav_header"
-                android:fitsSystemWindows="true"
-                android:layout_gravity="start"
-                app:menu="@menu/nav_menu">
-
-        </android.support.design.widget.NavigationView>
-
-    </android.support.v4.widget.DrawerLayout>
 
     <ListView
             android:layout_width="368dp"
@@ -44,24 +28,46 @@
             android:id="@+id/movieSearchListView"
             android:layout_centerInParent="true"/>
 
-    <Button
+    <!--Add Movie Button-->
+    <ImageButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/addMovieButton"
-            android:text="Add Movie to Saved List"
-            android:layout_alignParentStart="true" android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp" android:layout_marginStart="0dp"/>
-    <EditText
+            android:src="@drawable/addmovie"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/movieName"
+            android:layout_marginTop="0dp"/>
+    <!---->
+    <TextView
             android:layout_width="221dp"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true" android:id="@+id/movie_search_input" android:layout_marginTop="70dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/movie_search_input"
+            android:layout_marginTop="70dp"
             android:inputType="text"
             android:hint="Search for a movie..."/>
-    <!--<ProgressBar-->
-            <!--style="?android:attr/progressBarStyleHorizontal"-->
-            <!--android:layout_width="289dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true" android:id="@+id/progressBar"-->
-            <!--android:layout_marginBottom="35dp" android:layout_alignParentStart="true"-->
-            <!--android:layout_marginStart="46dp" android:layout_alignParentEnd="true" android:layout_marginEnd="49dp"/>-->
+
+<!--movie name text view-->
+    <TextView
+            android:id="@+id/movieName"
+            android:layout_below="@+id/movieSearchProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_alignParentStart="true"/>
+
+<!--progress bar -->
+    <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="289dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/movieSearchProgressBar"
+            android:layout_marginBottom="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="46dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="49dp"/>
 </RelativeLayout>
