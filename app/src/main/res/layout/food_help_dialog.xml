@@ -10,21 +10,21 @@
             android:id="@+id/foodAppAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Author: Oluwakemi Mafe"
+            android:text="@string/food_help_author"
             android:paddingBottom="15dp"/>
 
     <TextView
             android:id="@+id/foodAppVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Version 1.0.0"
+            android:text="@string/food_help_version"
             android:paddingBottom="15dp"/>
 
     <TextView
             android:id="@+id/foodHelpHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="How to use Food Analysis Application"
+            android:text="@string/food_help_instruction_title"
             android:textStyle="bold"
             android:gravity="center"
             android:paddingBottom="15dp"/>
@@ -33,40 +33,40 @@
             android:id="@+id/foodHelpInstruction1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Click on the Search icon to search for food fat and calories content online."
+            android:text="@string/food_help_instruction1"
             android:layout_marginBottom="8dp"/>
 
     <TextView
             android:id="@+id/foodHelpInstruction2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2. Click on the Plus icon to add food details to Favorites list."
+            android:text="@string/food_help_instruction2"
             android:layout_marginBottom="8dp"/>
 
     <TextView
             android:id="@+id/foodHelpInstruction3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3. Click on the Tag icon to add a tag for each food in the Favorites list."
+            android:text="@string/food_help_instruction3"
             android:layout_marginBottom="8dp"/>
 
     <TextView
             android:id="@+id/foodHelpInstruction4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="4. Click on each food item in the Favorites list to view its details."
+            android:text="@string/food_help_instruction4"
             android:layout_marginBottom="8dp"/>
     <TextView
             android:id="@+id/foodHelpInstruction5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5. Click on the Delete button on Food Details Page to delete food item from Favorites list."
+            android:text="@string/food_help_instruction5"
             android:layout_marginBottom="8dp"/>
 
     <TextView
             android:id="@+id/foodHelpInstruction6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6. Click on the Cancel button to return to Food Search Page."/>
+            android:text="@string/food_help_instructions6"/>
 
 </LinearLayout>

@@ -48,7 +48,8 @@
             android:src="@drawable/food_add"
             android:layout_below="@+id/foodCalories"
             android:layout_toRightOf="@+id/foodFat"
-            android:layout_marginTop="-1dp"/>
+            android:layout_marginTop="-1dp"
+            android:visibility="invisible"/>
 
     <TextView
             android:id="@+id/foodFat"

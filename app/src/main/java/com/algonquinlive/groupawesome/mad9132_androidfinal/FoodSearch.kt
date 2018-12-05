@@ -7,6 +7,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.net.Uri
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -16,17 +17,21 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_food_details.*
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
+import kotlin.collections.ArrayList
 
-
-
-
-
+/**
+ * You can search for food calories and fat content in this activity
+ * you can save that in formation into the database to retrieve later
+ * you can delete a foodItem from the database and the local foodArray
+ * you can get foodItems with similar tag
+ **/
 class FoodSearch : AppCompatActivity() {
 
     var favouritesListArray = ArrayList<Food>()
@@ -35,6 +40,7 @@ class FoodSearch : AppCompatActivity() {
     lateinit var foodName: TextView
     lateinit var foodCalories : TextView
     lateinit var foodFat : TextView
+    lateinit var foodAddBtn : ImageButton
     lateinit var foodSearchInputValue : String
     lateinit var listItem: ListView
     lateinit var foodSearchProgressBar: ProgressBar
@@ -43,10 +49,15 @@ class FoodSearch : AppCompatActivity() {
     lateinit var foodDbHelper: FoodDatabaseHelper
 
     var foodItemPosition = 0
-
+    var foodSearchCalories : Double? = null
+    var foodSearchFat : Double? = null
+    var foodSearchProgress = 0
     var searchIsSucessful = false
+    var foodToDeleteId : Int? = null
+    var changePosition = false
+    var total = 0.00
 
-    data class Food(var name: String?, var calContent: String?, var fatContent: String?, var tag: String?)
+    data class Food(var id: Int, var name: String, var calContent: Int, var fatContent: Int, var tag: String?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,39 +73,120 @@ class FoodSearch : AppCompatActivity() {
 
         foodDbHelper = FoodDatabaseHelper()
         foodDB = foodDbHelper.writableDatabase //open your database and allows you write into it
-        foodResults = foodDB.query( TABLE_NAME, arrayOf("_id", FOODITEMKEY),
+        foodResults = foodDB.query( TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
             null, null,
             null, null, null,
             null)
 
-        var foodAddBtn = findViewById<ImageButton>(R.id.foodAddBtn)
+
+
+        foodResults.moveToFirst()
+        val idIndex = foodResults.getColumnIndex("_id") //get index of id column
+        val itemIndex = foodResults.getColumnIndex(FOODITEMKEY) //get index of name column
+        val fatIndex = foodResults.getColumnIndex(FOODFATKEY) //get index of fat column
+        val caloriesIndex = foodResults.getColumnIndex(FOODCALORIESKEY) //get index of calories column
+        val tagIndex = foodResults.getColumnIndex(FOODTAGKEY) //get index of tag column
+
+        var id:Int? = null
+        var item:String? = null
+        var fat:Double? = null
+        var calories:Double? = null
+        var tag:String? = null
+
+        while(!foodResults.isAfterLast){
+
+            //this runs while you are not done reading
+
+            id = foodResults.getInt(idIndex)
+            item = foodResults.getString( itemIndex )
+            fat = foodResults.getDouble( fatIndex )
+            calories = foodResults.getDouble( caloriesIndex )
+            tag = foodResults.getString( tagIndex )
+
+            // add to arraylist
+            var newFoodData: Food = Food( id, item, calories.toInt(), fat.toInt(), tag)
+            favouritesListArray.add(newFoodData)
+
+            foodResults.moveToNext()
+            Log.i("from database", "id: $id, names: $item, fat: $fat, calories: $calories, tag: $tag")
+        }
+
+
+        Log.i("added", foodResults.getCount().toString())
+
+
+        foodAddBtn = findViewById<ImageButton>(R.id.foodAddBtn)
         foodAddBtn.setOnClickListener {
 
             if(searchIsSucessful){
 
-
                 var food = Food(
+                        0,
                         foodName.text.toString().removePrefix("Food Name:  "),
-                        foodCalories.text.toString(),
-                        foodFat.text.toString(),
+                        foodSearchCalories.toString().toDouble().toInt(),
+                        foodSearchFat.toString().toDouble().toInt(),
                         null
                     )
 
-                favouritesListArray.add(food)
-                listAdapter.notifyDataSetChanged()
+                //resetting the values of these text views
+                foodName.text = "Name:"
+                foodCalories.text = "Calories:"
+                foodFat.text = "Fat:"
 
                 //write to a database
                 val foodNewRow = ContentValues()
-                foodNewRow.put(FOODITEMKEY, food.toString()) //not sure about this
+                foodNewRow.put(FOODITEMKEY, food.name)
+                foodNewRow.put(FOODFATKEY, food.fatContent)
+                foodNewRow.put(FOODCALORIESKEY, food.calContent)
+                foodNewRow.put(FOODTAGKEY, food.tag)
 
                 foodDB.insert(TABLE_NAME, "", foodNewRow)
 
-                Log.i("added", foodNewRow.toString())
-                foodResults = foodDB.query( TABLE_NAME, arrayOf("_id", FOODITEMKEY),
+                foodResults = foodDB.query( TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
                     null, null,
                     null, null, null,
                     null)
 
+
+
+                foodResults.moveToFirst()
+                val idIndex = foodResults.getColumnIndex("_id") //get index of id column
+                val itemIndex = foodResults.getColumnIndex(FOODITEMKEY) //get index of name column
+                val fatIndex = foodResults.getColumnIndex(FOODFATKEY) //get index of fat column
+                val caloriesIndex = foodResults.getColumnIndex(FOODCALORIESKEY) //get index of calories column
+                val tagIndex = foodResults.getColumnIndex(FOODTAGKEY) //get index of tag column
+
+                while(!foodResults.isAfterLast){
+
+                    //this runs while you are not done reading
+
+                    var id = foodResults.getInt(idIndex)
+                    var item = foodResults.getString( itemIndex )
+                    var fat = foodResults.getDouble( fatIndex )
+                    var calories = foodResults.getDouble( caloriesIndex )
+                    var tag = foodResults.getString( tagIndex )
+
+                    // add to arrayList
+                    var newArray = ArrayList<Food>()
+
+                    var newFoodData = Food( id, item, calories.toInt(), fat.toInt(), tag)
+                    newArray.add(newFoodData)
+
+                    for(item in newArray){
+
+                        if(item.name.equals(food.name)){
+
+                            var addToFoodArray = Food(item.id, item.name, item.calContent, item.fatContent, item.tag)
+
+                            favouritesListArray.add(addToFoodArray)
+                        }
+                    }
+
+                    foodResults.moveToNext()
+
+                }
+
+                listAdapter.notifyDataSetChanged()
                 searchIsSucessful = false
             }
         }
@@ -112,7 +204,26 @@ class FoodSearch : AppCompatActivity() {
             builder.setView(foodDialogStuff) //insert view into dialog
 
             // Add the buttons
-            builder.setPositiveButton(R.string.food_dialog_ok, {dialog, id -> })
+            builder.setPositiveButton(R.string.food_dialog_ok, {dialog, id ->
+
+                for (item in favouritesListArray){
+
+                    var name = item.name
+                    var answer = foodDialogAnswer.text.toString()
+                    var newTag = foodDialogTagName.text.toString()
+                    var cv =  ContentValues()
+                    cv.put(FOODTAGKEY, newTag)
+
+                    if(name.equals(answer)){
+
+                        foodDB.update(TABLE_NAME, cv, "$FOODITEMKEY=?", arrayOf(name))
+                        Log.i("added tag", "$item")
+
+                        item.tag = newTag
+                    }
+                }
+
+            })
             builder.setNegativeButton(R.string.food_dialog_cancel, {dialog, id -> })
 
             // Create the AlertDialog
@@ -125,24 +236,29 @@ class FoodSearch : AppCompatActivity() {
 
             val iAmTablet = findViewById<FrameLayout>(R.id.food_fragment_location) != null
 
+
             if(iAmTablet)
             {
 
                 var foodArray = favouritesListArray.get(position)
                 var dataToPass = Bundle()
+
+                dataToPass.putInt("ID", foodArray.id)
                 dataToPass.putString("Food-Name", foodArray.name)
-                dataToPass.putString("Food-Calories", foodArray.calContent)
-                dataToPass.putString("Food-Fat", foodArray.fatContent)
+                dataToPass.putInt("Food-Calories", foodArray.calContent)
+                dataToPass.putInt("Food-Fat", foodArray.fatContent)
                 dataToPass.putString("Food-Tag", foodArray.tag)
-                dataToPass.putLong("ID", id)
+                Log.i("current data", "$foodArray")
 
                 val newFoodFragment = FoodDetailsFragment()
                 newFoodFragment.arguments = dataToPass //passing bundle to fragment
                 supportFragmentManager.beginTransaction().replace(R.id.food_fragment_location, newFoodFragment).commit()
             }
             else{
-            val intent = Intent(this, FoodDetails::class.java)
 
+                val intent = Intent(this, FoodDetails::class.java)
+
+            intent.putExtra("id", favouritesListArray.get(position).id)
             intent.putExtra("name",favouritesListArray.get(position).name)
             intent.putExtra("calContent",favouritesListArray.get(position).calContent)
             intent.putExtra("fatContent",favouritesListArray.get(position).fatContent)
@@ -150,15 +266,14 @@ class FoodSearch : AppCompatActivity() {
 
             startActivity(intent)
             }
+
+            foodItemPosition = position
         }
-
-        //test data
-        favouritesListArray. add(Food("Apple", "200kcal", "23grams", "Fruit"))
-
-        favouritesListArray. add(Food("Bread", "200kcal", "23grams", "Carbohydrate"))
 
         listAdapter = FoodAdapter(this)
         listItem?.adapter = listAdapter
+
+        onActivityResult(50, 2, intent)
     }
 
     override fun  onCreateOptionsMenu (menu: Menu) : Boolean {
@@ -238,17 +353,14 @@ class FoodSearch : AppCompatActivity() {
 
     inner class FoodQuery : AsyncTask<String, Integer, String>(){
 
-        var foodSearchCalories : Double? = null
-        var foodSearchFat : Double? = null
-        var foodSearchProgress = 0
-
         override fun doInBackground(vararg params: String?): String {
 
             try{
 
                 //connect to server
+                var foodSearchValue = Uri.encode(foodSearchInputValue)
                 var url =
-                    URL("https://api.edamam.com/api/food-database/parser?app_id=36c47bc9&app_key=f7383e1f243345dcd50c7e3aef8f9742&ingr=$foodSearchInputValue" )
+                    URL("https://api.edamam.com/api/food-database/parser?app_id=36c47bc9&app_key=f7383e1f243345dcd50c7e3aef8f9742&ingr=$foodSearchValue" )
                 var urlConnection = url.openConnection() as HttpURLConnection
                 var response = urlConnection.inputStream
 
@@ -288,6 +400,7 @@ class FoodSearch : AppCompatActivity() {
                 searchIsSucessful = true
 
                 foodSearchProgressBar.setProgress(foodSearchProgress)
+
             }
             catch (e: Exception){
 
@@ -306,6 +419,7 @@ class FoodSearch : AppCompatActivity() {
             foodFat.text = "Fat Content:  " + foodSearchFat.toString()
 
             foodSearchProgressBar.visibility = View.INVISIBLE
+            foodAddBtn.visibility = View.VISIBLE
 
         }
 
@@ -343,15 +457,18 @@ class FoodSearch : AppCompatActivity() {
     ///creating databases
 
     val DATABASE_NAME = "FoodFav.db"
-    val VERSION_NUM = 1
+    val VERSION_NUM = 6
     val TABLE_NAME = "FavoriteFoodItem"
-    val FOODITEMKEY = "FoodItems"
+    val FOODITEMKEY = "FoodName"
+    val FOODFATKEY = "FoodFat"
+    val FOODCALORIESKEY = "FoodCalories"
+    val FOODTAGKEY = "FoodTag"
 
     inner class FoodDatabaseHelper : SQLiteOpenHelper(this@FoodSearch, DATABASE_NAME, null, VERSION_NUM) {
 
         override fun onCreate(db: SQLiteDatabase) {
 
-            db.execSQL("CREATE TABLE $TABLE_NAME ( _id INTEGER PRIMARY KEY AUTOINCREMENT, $FOODITEMKEY TEXT)") //creates table
+            db.execSQL("CREATE TABLE $TABLE_NAME ( _id INTEGER PRIMARY KEY AUTOINCREMENT, $FOODITEMKEY TEXT, $FOODFATKEY INTEGER, $FOODCALORIESKEY INTEGER, $FOODTAGKEY TEXT)") //creates table
             Log.i("FoodDatabaseHelper", "Calling onCreate")
         }
 
@@ -367,17 +484,96 @@ class FoodSearch : AppCompatActivity() {
     }
 
 
-    fun deleteFoodItem(id:Long)
-    {
-       foodDB.delete(TABLE_NAME, "_id=$id", null)
-        foodResults = foodDB.query( TABLE_NAME, arrayOf("_id", FOODITEMKEY),
-            null, null,
-            null, null, null,
-            null)
-        favouritesListArray.removeAt(foodItemPosition)
-        Log.i("FoodSearch", favouritesListArray.toString())
-        listAdapter.notifyDataSetChanged() //reload the list
+    fun deleteFoodItem(id:Int?) {
+
+            foodDB.delete(TABLE_NAME, "_id=$id", null)
+            foodResults = foodDB.query( TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
+                null, null,
+                null, null, null,
+                null)
+
+        if(changePosition){
+            favouritesListArray.removeAt(foodItemPosition + 1)
+        }else{
+            favouritesListArray.removeAt(foodItemPosition)
+        }
+
+            Log.i("FoodSearch", favouritesListArray.toString())
+            listAdapter.notifyDataSetChanged() //reload the list
 
     }
 
+    fun showFoodItemWithSameTag(tag:String?){
+
+        var tagArray = ArrayList<Double>()
+
+        foodResults = foodDB.query(TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
+            "$FOODTAGKEY= ?", arrayOf(tag), null, null, null, null)
+
+        foodResults.moveToFirst()
+
+        val caloriesIndex = foodResults.getColumnIndex(FOODCALORIESKEY) //get index of calories column
+
+        var calories:Double? = null
+
+
+        while (!foodResults.isAfterLast) {
+
+            //this runs while you are not done reading
+
+            calories = foodResults.getDouble(caloriesIndex)
+
+            total += calories
+            tagArray.add(calories)
+            Log.i("Bla", "$tagArray")
+
+            foodResults.moveToNext()
+
+        }
+        Log.i("similar tags", "$tagArray")
+        showSummary(tagArray, tag)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        foodToDeleteId = data?.getIntExtra("foodToDelete", 0)
+
+        if(foodToDeleteId != null){
+
+            if(foodToDeleteId != 0){
+
+                changePosition = true
+                deleteFoodItem(foodToDeleteId)
+            }
+        }
+
+        changePosition = false
+    }
+
+    private fun showSummary(arr: ArrayList<Double>, text: String?){
+
+        var arrCount = arr.count()
+        var max = arr.max()
+        var min = arr.min()
+        var average =  total / arrCount
+
+        var summary = findViewById<TextView>(R.id.summary)
+        var minCal = findViewById<TextView>(R.id.minCal)
+        var maxCal = findViewById<TextView>(R.id.maxCal)
+        var aveCal = findViewById<TextView>(R.id.averageCal)
+        var textTotal = findViewById<TextView>(R.id.totalCal)
+
+        summary.text = "Summary for $text"
+        minCal.text = "Minimum calories " + min.toString()
+        maxCal.text = "Maximum calories " + max.toString()
+        aveCal.text = "Average calories " + average.toString()
+        textTotal.text = "Total calories " + total.toString()
+
+        summary.visibility = View.VISIBLE
+        minCal.visibility = View.VISIBLE
+        maxCal.visibility = View.VISIBLE
+        aveCal.visibility = View.VISIBLE
+        textTotal.visibility = View.VISIBLE
+
+    }
 }
