@@ -218,7 +218,7 @@ class FoodDetails : AppCompatActivity() {
             //this runs while you are not done reading
             calories = foodResults.getDouble(caloriesIndex)
 
-            total = total + calories
+            total += calories
 
             tagArray.add(calories)
             var index = 0
@@ -229,30 +229,32 @@ class FoodDetails : AppCompatActivity() {
 
         }
         Log.i("similar tags", "$tagArray")
-        showsummary(tagArray)
+        showSummary(tagArray, tag)
     }
 
-    fun showsummary(arr: ArrayList<Double>){
+    private fun showSummary(arr: ArrayList<Double>, text: String?){
 
         var arrCount = arr.count()
         var max = arr.max()
         var min = arr.min()
-        var totalcal = total
         var average =  total / arrCount
 
+        var summary = findViewById<TextView>(R.id.summary)
         var minCal = findViewById<TextView>(R.id.minCal)
         var maxCal = findViewById<TextView>(R.id.maxCal)
-        var avecal = findViewById<TextView>(R.id.averageCal)
+        var aveCal = findViewById<TextView>(R.id.averageCal)
         var textTotal = findViewById<TextView>(R.id.totalCal)
 
-        minCal.text = "Mininum calories " + min.toString()
+        summary.text = "Summary for $text"
+        minCal.text = "Minimum calories " + min.toString()
         maxCal.text = "Maximum calories " + max.toString()
-        avecal.text = "Average calories " + average.toString()
+        aveCal.text = "Average calories " + average.toString()
         textTotal.text = "Total calories " + total.toString()
 
+        summary.visibility = View.VISIBLE
         minCal.visibility = View.VISIBLE
         maxCal.visibility = View.VISIBLE
-        avecal.visibility = View.VISIBLE
+        aveCal.visibility = View.VISIBLE
         textTotal.visibility = View.VISIBLE
 
     }

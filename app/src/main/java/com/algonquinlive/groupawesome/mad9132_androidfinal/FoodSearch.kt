@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_food_details.*
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -54,6 +55,7 @@ class FoodSearch : AppCompatActivity() {
     var searchIsSucessful = false
     var foodToDeleteId : Int? = null
     var changePosition = false
+    var total = 0.00
 
     data class Food(var id: Int, var name: String, var calContent: Int, var fatContent: Int, var tag: String?)
 
@@ -127,9 +129,9 @@ class FoodSearch : AppCompatActivity() {
                     )
 
                 //resetting the values of these text views
-                foodName.text = ""
-                foodCalories.text = ""
-                foodFat.text = ""
+                foodName.text = "Name:"
+                foodCalories.text = "Calories:"
+                foodFat.text = "Fat:"
 
                 //write to a database
                 val foodNewRow = ContentValues()
@@ -253,10 +255,6 @@ class FoodSearch : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.food_fragment_location, newFoodFragment).commit()
             }
             else{
-
-//                var detailActivity = Intent(this, FoodDetails::class.java)
-//                detailActivity.putExtras(dataToPass) //sends data to next page
-//                startActivityForResult(detailActivity, 35)
 
                 val intent = Intent(this, FoodDetails::class.java)
 
@@ -507,43 +505,33 @@ class FoodSearch : AppCompatActivity() {
 
     fun showFoodItemWithSameTag(tag:String?){
 
-        var tagArray = ArrayList<Food>()
-        var tagFoodItem : Food? = null
+        var tagArray = ArrayList<Double>()
+
         foodResults = foodDB.query(TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
             "$FOODTAGKEY= ?", arrayOf(tag), null, null, null, null)
 
         foodResults.moveToFirst()
-        val idIndex = foodResults.getColumnIndex("_id") //get index of id column
-        val itemIndex = foodResults.getColumnIndex(FOODITEMKEY) //get index of name column
-        val fatIndex = foodResults.getColumnIndex(FOODFATKEY) //get index of fat column
-        val caloriesIndex = foodResults.getColumnIndex(FOODCALORIESKEY) //get index of calories column
-        val tagIndex = foodResults.getColumnIndex(FOODTAGKEY) //get index of tag column
 
-        var id:Int? = null
-        var item:String? = null
-        var fat:Double? = null
+        val caloriesIndex = foodResults.getColumnIndex(FOODCALORIESKEY) //get index of calories column
+
         var calories:Double? = null
-        var tag:String? = null
+
 
         while (!foodResults.isAfterLast) {
 
             //this runs while you are not done reading
 
-            id = foodResults.getInt(idIndex)
-            item = foodResults.getString(itemIndex)
-            fat = foodResults.getDouble(fatIndex)
             calories = foodResults.getDouble(caloriesIndex)
-            tag = foodResults.getString(tagIndex)
 
-            tagFoodItem = Food( id, item, calories.toInt(), fat.toInt(), tag)
-
-            tagArray.add(tagFoodItem)
+            total += calories
+            tagArray.add(calories)
             Log.i("Bla", "$tagArray")
 
             foodResults.moveToNext()
 
         }
-        Log.i("similar tags", "$tagFoodItem")
+        Log.i("similar tags", "$tagArray")
+        showSummary(tagArray, tag)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -560,5 +548,32 @@ class FoodSearch : AppCompatActivity() {
         }
 
         changePosition = false
+    }
+
+    private fun showSummary(arr: ArrayList<Double>, text: String?){
+
+        var arrCount = arr.count()
+        var max = arr.max()
+        var min = arr.min()
+        var average =  total / arrCount
+
+        var summary = findViewById<TextView>(R.id.summary)
+        var minCal = findViewById<TextView>(R.id.minCal)
+        var maxCal = findViewById<TextView>(R.id.maxCal)
+        var aveCal = findViewById<TextView>(R.id.averageCal)
+        var textTotal = findViewById<TextView>(R.id.totalCal)
+
+        summary.text = "Summary for $text"
+        minCal.text = "Minimum calories " + min.toString()
+        maxCal.text = "Maximum calories " + max.toString()
+        aveCal.text = "Average calories " + average.toString()
+        textTotal.text = "Total calories " + total.toString()
+
+        summary.visibility = View.VISIBLE
+        minCal.visibility = View.VISIBLE
+        maxCal.visibility = View.VISIBLE
+        aveCal.visibility = View.VISIBLE
+        textTotal.visibility = View.VISIBLE
+
     }
 }
