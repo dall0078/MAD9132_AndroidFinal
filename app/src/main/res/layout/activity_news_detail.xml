@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/nav_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView android:layout_width="350dp"
+              android:layout_below="@id/nav_toolbar"
+              android:id="@+id/articleTitle"
+              android:layout_height="wrap_content"
+              android:paddingTop="6dp"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:textStyle="bold"
+              android:textColor="#131313"
+              android:textSize="18sp"/>
+
+    <TextView android:layout_width="350dp"
+              android:layout_height="24dp"
+              android:id="@+id/authorName"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:layout_below="@id/articleTitle"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/articleDate"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:layout_below="@id/authorName"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/articleLink"
+              android:autoLink="web"
+              android:paddingBottom="20dp"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:layout_below="@id/articleDate"/>
+
+    <WebView android:layout_width="240dp"
+               android:layout_height="145dp"
+               android:id="@+id/articleImage"
+               android:layout_below="@id/articleLink"
+               android:layout_centerInParent="true"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/articleImage"
+              android:paddingTop="24dp"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:id="@+id/articleContent"/>
+
+    <ImageButton android:layout_width="40dp"
+                 android:layout_height="40dp"
+                 android:src="@drawable/plus"
+                 android:id="@+id/news_detail_addToFavButton"
+                 android:layout_below="@id/nav_toolbar"
+                 android:layout_toEndOf="@id/articleTitle"/>
+
+</RelativeLayout>

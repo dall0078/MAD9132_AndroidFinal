@@ -3,8 +3,25 @@
     <string name="group_name">Group Awesome</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="menu_nav_item_food">Food</string>
+    <string name="menu_nav_item_food">Food Analysis</string>
     <string name="menu_nav_item_news">CBC News</string>
     <string name="menu_nav_item_movie">Movies</string>
     <string name="menu_nav_item_bus">OCTranspo Buses</string>
+    <string name="food_dialog_ok">Ok</string>
+    <string name="food_dialog_cancel">Cancel</string>
+    <string name="food_search_name">Name:</string>
+    <string name="food_search_calories">Calories:</string>
+    <string name="food_search_fat">Fat:</string>
+    <string name="food_search_favorites_heading">Favorites</string>
+    <string name="food_tag_foodName">Which food do you want to tag?</string>
+    <string name="food_tag_tagName">Give a tag name</string>
+    <string name="food_tag_textHint">Type here</string>
+    <string name="food_details_delete">Delete</string>
+    <string name="food_details_cancel">Cancel</string>
+    <string name="food_details_textHint_FoodName">Food Name</string>
+    <string name="food_details_textHint_calories">Food Calories Count</string>
+    <string name="food_details_textHint_fat">Food Fat Content</string>
+    <string name="food_details_texthint_tagName">Food Tag Name</string>
+    <string name="food_dialog_title">Add Tag</string>
+    <string name="food_help_dialog_done">Done</string>
 </resources>
