@@ -203,12 +203,7 @@ class FoodDetails : AppCompatActivity() {
             "$FOODTAGKEY= ?", arrayOf(tag), null, null, null, null)
 
         foodResults.moveToFirst()
-        val idIndex = foodResults.getColumnIndex("_id") //get index of id column
-        val itemIndex = foodResults.getColumnIndex(FOODITEMKEY) //get index of name column
-        val fatIndex = foodResults.getColumnIndex(FOODFATKEY) //get index of fat column
         val caloriesIndex = foodResults.getColumnIndex(FOODCALORIESKEY) //get index of calories column
-        val tagIndex = foodResults.getColumnIndex(FOODTAGKEY) //get index of tag column
-
 
         var calories:Double? = null
 
