@@ -37,13 +37,13 @@
             android:textSize="30dp"
             android:hint="@string/food_details_textHint_fat"/>
 
-    <TextView
+    <Button
             android:id="@+id/foodTagDetails"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/foodFatContent"
+            android:layout_centerInParent="true"
             android:textSize="30dp"
-            android:hint="@string/food_details_texthint_tagName"
             android:visibility="invisible"/>
 
     <Button
@@ -63,5 +63,49 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/foodTagDetails"
             android:layout_marginTop="15dp"/>
+
+    <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:layout_below="@+id/foodCancelBtn"
+            android:layout_marginTop="30dp"/>
+
+    <TextView
+            android:id="@+id/minCal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textSize="30dp"
+            android:layout_below="@+id/summary"
+            android:layout_marginTop="10dp"/>
+
+    <TextView
+            android:id="@+id/maxCal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textSize="30dp"
+            android:layout_below="@+id/minCal"/>
+
+    <TextView
+            android:id="@+id/averageCal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textSize="30dp"
+            android:layout_below="@+id/maxCal"/>
+
+    <TextView
+            android:id="@+id/totalCal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textSize="30dp"
+            android:layout_below="@+id/averageCal"/>
 
 </RelativeLayout>
