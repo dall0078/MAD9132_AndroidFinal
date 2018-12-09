@@ -41,8 +41,7 @@ class FoodDetails : AppCompatActivity() {
         foodDeleteBtn.setOnClickListener {
 
             Snackbar.make(foodDeleteBtn, "Do you still want to delete $foodSnackbarMessage?", Snackbar.LENGTH_LONG)
-                .setAction("Yes", {
-                        e -> Toast.makeText(this@FoodDetails, "$foodSnackbarMessage Deleted Successfully", Toast.LENGTH_LONG).show()})
+                .setAction("Yes") { e -> Toast.makeText(this@FoodDetails, "$foodSnackbarMessage Deleted Successfully", Toast.LENGTH_LONG).show()}
                 .show()
             //delete from array
             //upload arrayList

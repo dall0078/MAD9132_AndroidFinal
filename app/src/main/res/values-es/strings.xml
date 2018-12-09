@@ -25,4 +25,12 @@
     <string name="food_details_texthint_tagName">Food Tag Name</string>
     <string name="food_dialog_title">Add Tag</string>
     <string name="food_help_dialog_done">Done</string>
+    <string name="news_recent_news_title">Noticias Recentes</string>
+    <string name="news_list_item_author_placeholder">Nombre de Autor</string>
+    <string name="news_list_overflow_menu_favourite_news">Noticias Favoritas</string>
+    <string name="menu_help_item">Ayuda</string>
+    <string name="news_help_dialog_title">Como Usar El CBC News Reader</string>
+    <string name="news_help_dialog_step_1">1. Las noticias mas recentes cargan automaticamente!</string>
+    <string name="news_help_dialog_step_2">2. Presiona un articulo para ver sus detalles o para agregarlo a tus favoritos.</string>
+    <string name="news_help_dialog_step_3">Tambiene puedes ver el articulo en el web con el link in la página de detalles</string>
 </resources>

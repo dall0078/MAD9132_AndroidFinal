@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/foodAppAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Author: Jordan Willis"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/foodAppVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Version 1.0"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/foodHelpHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_help_dialog_title"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/foodHelpInstruction1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_help_dialog_step_1"
+            android:layout_marginBottom="8dp"/>
+
+    <TextView
+            android:id="@+id/foodHelpInstruction2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_help_dialog_step_2"
+            android:layout_marginBottom="8dp"/>
+
+    <TextView
+            android:id="@+id/foodHelpInstruction3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/news_help_dialog_step_3"
+            android:layout_marginBottom="8dp"/>
+
+</LinearLayout>
