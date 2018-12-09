@@ -33,4 +33,12 @@
     <string name="food_details_texthint_tagName">Food Tag Name</string>
     <string name="food_dialog_title">Add Tag</string>
     <string name="food_help_dialog_done">Done</string>
+    <string name="news_recent_news_title">Recent News</string>
+    <string name="news_list_item_author_placeholder">Author Name</string>
+    <string name="news_list_overflow_menu_favourite_news">Favourite News</string>
+    <string name="menu_help_item">Help</string>
+    <string name="news_help_dialog_title">How To Use the CBC News Reader</string>
+    <string name="news_help_dialog_step_1">1. The most recent news will automatically load!</string>
+    <string name="news_help_dialog_step_2">2. Click on an article to view more details or add it to favourites for later viewing.</string>
+    <string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details page.</string>
 </resources>
