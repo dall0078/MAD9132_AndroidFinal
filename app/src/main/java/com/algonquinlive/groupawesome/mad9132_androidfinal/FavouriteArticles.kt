@@ -140,7 +140,6 @@ class FavouriteArticles : AppCompatActivity() {
                 var intent = Intent(this, BusSearch::class.java)
                 startActivity(intent)
             }
-
             R.id.news_menu_saved_article_count -> {
                 countArticles()
             }
@@ -156,7 +155,6 @@ class FavouriteArticles : AppCompatActivity() {
             R.id.news_menu_saved_article_average_words -> {
                 minWords()
             }
-
         }
         return true
     }

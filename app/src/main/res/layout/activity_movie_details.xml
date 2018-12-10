@@ -88,8 +88,8 @@
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="435dp"
             tools:layout_editor_absoluteX="15dp" android:id="@+id/movieDetailsCancel"/>
     <Button
-            android:text="Delete Movie"
+            android:text="Add Movie to Favs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="435dp"
-            tools:layout_editor_absoluteX="248dp" android:id="@+id/movieDeleteButton"/>
+            tools:layout_editor_absoluteX="210dp" android:id="@+id/movie_detail_AddButton"/>
 </android.support.constraint.ConstraintLayout>

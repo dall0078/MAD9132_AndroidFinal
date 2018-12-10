@@ -27,6 +27,8 @@
         <activity android:name=".FoodSearch"/>
         <activity android:name=".NewsList"/>
         <activity android:name=".MovieSearch"/>
+        <activity android:name=".MovieSavedList"/>
+        <activity android:name=".MovieDetails"/>
         <activity android:name=".BusSearch"/>
         <activity android:name=".NewsDetail"/>
         <activity android:name=".FoodDetails"/>

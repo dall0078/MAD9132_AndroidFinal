@@ -22,12 +22,6 @@
             android:layout_marginStart="0dp"/>
 
 
-    <ListView
-            android:layout_width="368dp"
-            android:layout_height="326dp"
-            android:id="@+id/movieSearchListView"
-            android:layout_centerInParent="true"/>
-
     <!--Add Movie Button-->
     <ImageButton
             android:layout_width="match_parent"
@@ -39,17 +33,16 @@
             android:layout_below="@+id/movieName"
             android:layout_marginTop="0dp"/>
     <!---->
-    <TextView
+    <EditText
             android:layout_width="221dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
             android:id="@+id/movie_search_input"
-            android:layout_marginTop="70dp"
             android:inputType="text"
-            android:hint="Search for a movie..."/>
+            android:hint="Search for a movie..."
+            android:layout_alignParentStart="true" android:layout_marginStart="27dp"
+            android:layout_alignParentTop="true" android:layout_marginTop="70dp"/>
 
-<!--movie name text view-->
+<!--movie text view-->
     <TextView
             android:id="@+id/movieName"
             android:layout_below="@+id/movieSearchProgressBar"
@@ -65,9 +58,33 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:id="@+id/movieSearchProgressBar"
-            android:layout_marginBottom="35dp"
+            android:layout_marginBottom="22dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="46dp"
+            android:layout_marginStart="38dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="49dp"/>
+            android:layout_marginEnd="57dp"/>
+    <Button
+            android:text="@string/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_below="@+id/movie_search_input"
+            android:id="@+id/searchForMovie"
+            android:layout_marginTop="-48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/moviePoster"
+            android:layout_marginBottom="114dp" android:layout_marginStart="-248dp"/>
+    <ListView
+            android:layout_width="317dp"
+            android:layout_height="346dp"
+            android:layout_marginBottom="38dp"
+            android:layout_alignBottom="@+id/movieSearchProgressBar" android:layout_marginTop="45dp"
+            android:layout_below="@+id/movie_search_input" android:layout_alignParentEnd="true"
+            android:layout_marginEnd="36dp" android:layout_alignParentStart="true" android:layout_marginStart="31dp"
+            android:id="@+id/movie_search_listView"/>
 </RelativeLayout>

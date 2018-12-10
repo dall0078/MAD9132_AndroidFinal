@@ -203,8 +203,10 @@ class NewsList : AppCompatActivity(){
             .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
             }
             .show()
-
+        }
+        return true
     }
+
 
     inner class NewsAdapter(ctx: Context): ArrayAdapter<Story>(ctx, 0) {
 
