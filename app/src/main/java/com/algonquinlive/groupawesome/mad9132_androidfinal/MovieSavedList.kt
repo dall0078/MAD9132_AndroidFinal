@@ -48,7 +48,7 @@ class MovieSavedList : AppCompatActivity() {
         setSupportActionBar(toolBar)
 
 
-        NavigationClickHandler(this).initializePage()
+        NavigationClickHandler(this)
 
 
 
