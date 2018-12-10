@@ -149,11 +149,11 @@ class FavouriteArticles : AppCompatActivity() {
             }
 
             R.id.news_menu_saved_article_least_words -> {
-                averageWords()
+                minWords()
             }
 
             R.id.news_menu_saved_article_average_words -> {
-                minWords()
+                averageWords()
             }
         }
         return true
