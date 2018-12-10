@@ -7,11 +7,13 @@ import android.graphics.Bitmap
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_news_list.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
 import org.xmlpull.v1.XmlPullParser
@@ -107,7 +109,92 @@ class NewsList : AppCompatActivity(){
                 var intent = Intent(this, BusSearch::class.java)
                 startActivity(intent)
             }
+            R.id.news_menu_saved_article_count -> {
+                countArticles()
+            }
+            R.id.news_menu_saved_article_most_words -> {
+                maxWords()
+            }
+            R.id.news_menu_saved_article_least_words -> {
+                minWords()
+            }
+            R.id.news_menu_saved_article_average_words -> {
+                averageWords()
+            }
+        }
+        return true
+    }
 
+    fun countArticles()
+    {
+
+        var articleCount = newsStoryArray.size
+        var articleMessage = "Number of fetched articles: $articleCount"
+        Snackbar.make(newsItemsListView, articleMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@NewsList, "This is the number of articles fetched", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+    fun maxWords()
+    {
+        var maxWords = 0
+        for (i in 0..newsStoryArray.size-1)
+        {
+            var words = newsStoryArray[i]?.description?.split(' ')
+            var wordCount = words!!.size
+            if(maxWords<wordCount)
+            {
+                maxWords = wordCount
+            }
+        }
+        var maxWordsMessage = "The max word count of all articles fetched is: $maxWords"
+        Snackbar.make(newsItemsListView, maxWordsMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@NewsList, "This is the highest word count of all articles fetched", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+
+    fun minWords()
+    {
+        var minWords = 0
+        if (newsStoryArray.size > 0){
+            minWords = newsStoryArray[0]?.description?.split(' ')!!.size
+            for (i in 1..newsStoryArray.size-1)
+            {
+                var words = newsStoryArray[i]?.description?.split(' ')
+                var wordCount = words!!.size
+                if(minWords>wordCount)
+                {
+                    minWords = wordCount
+                }
+            }
+        }
+
+        var minWordsMessage = "The min word count of all articles fetched is $minWords"
+        Snackbar.make(newsItemsListView, minWordsMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@NewsList, "This is the least word count of all articles fetched", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+
+    fun averageWords()
+    {
+        var totalWords = 0
+        for (i in 0..newsStoryArray.size-1)
+        {
+            var words = newsStoryArray[i]?.description?.split(' ')!!.size
+            totalWords+=words
+        }
+        var averageWords = (totalWords/newsStoryArray.size)
+        var averageMessage = "The average word count of all articles fetched is: $averageWords"
+        Snackbar.make(newsItemsListView, averageMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
+            })
+            .show()
         }
         return true
     }
