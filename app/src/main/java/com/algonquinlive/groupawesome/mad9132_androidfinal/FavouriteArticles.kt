@@ -95,10 +95,10 @@ class FavouriteArticles : AppCompatActivity() {
 
             R.id.foodHelpIcon -> {
 
-                var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
+                var dialogStuff = layoutInflater.inflate(R.layout.news_help_dialog, null)
 
                 var builder =  AlertDialog.Builder(this)
-                builder.setTitle("About Food Analysis")
+                builder.setTitle("About CBC News Reader")
                 builder.setView(dialogStuff) //insert view into dialog
 
                 // Add the buttons

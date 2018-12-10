@@ -10,21 +10,21 @@
             android:id="@+id/movieAppAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Author: Adam Nieuwenhuizen"
+            android:text="@string/movieAppAuthor"
             android:paddingBottom="15dp"/>
 
     <TextView
             android:id="@+id/movieAppVersion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Version 1.0.0"
+            android:text="@string/movieAppVersion"
             android:paddingBottom="15dp"/>
 
     <TextView
             android:id="@+id/movieHelpTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="How to use Favorite Movie Application"
+            android:text="@string/movieHelpTitle"
             android:textStyle="bold"
             android:gravity="center"
             android:paddingBottom="15dp"/>
@@ -33,40 +33,40 @@
             android:id="@+id/movieHelpInstruction1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Enter a movie title into the search field and press search. This will give you a list of movies based on search criteria"
+            android:text="@string/movieHelpInstruction1"
             android:layout_marginBottom="12dp"/>
 
     <TextView
             android:id="@+id/movieHelpInstruction2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2. Click the movie you wish to view the information for."
+            android:text="@string/movieHelpInstruction2"
             android:layout_marginBottom="12dp"/>
 
     <TextView
             android:id="@+id/movieHelpInstruction3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3. From the movie details page, you may choose to save the movie to a Favorites List for later."
+            android:text="@string/movieHelpInstruction3"
             android:layout_marginBottom="12dp"/>
 
     <TextView
             android:id="@+id/movieHelpInstruction4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="4. Click on each movie in the Favorites list to view its details."
+            android:text="@string/movieHelpInstruction4"
             android:layout_marginBottom="12dp"/>
     <TextView
             android:id="@+id/movieHelpInstruction5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5. Click on the Delete button on the Movie Details Page to delete movie from Favorites list."
+            android:text="@string/movieHelpInstruction4"
             android:layout_marginBottom="12dp"/>
 
     <TextView
             android:id="@+id/movieHelpInstruction6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6. You can navigate to any of the other apps within the Movie Search App"/>
+            android:text="@string/movieHelpInstruction6"/>
 
 </LinearLayout>

@@ -34,7 +34,7 @@
               android:layout_height="wrap_content"
               android:layout_below="@id/progressBar"
               android:id="@+id/favouritesListHeader"
-              android:text="Recent News"/>
+              android:text="@string/news_recent_news_title"/>
 
     <ListView android:layout_width="match_parent"
               android:layout_height="wrap_content"
