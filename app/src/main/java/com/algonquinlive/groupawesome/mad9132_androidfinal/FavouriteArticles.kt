@@ -8,10 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_favourite_articles.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
 
@@ -127,8 +129,97 @@ class FavouriteArticles : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            R.id.news_menu_saved_article_count -> {
+                countArticles()
+            }
+
+            R.id.news_menu_saved_article_most_words -> {
+                maxWords()
+            }
+
+            R.id.news_menu_saved_article_least_words -> {
+                averageWords()
+            }
+
+            R.id.news_menu_saved_article_average_words -> {
+                minWords()
+            }
+
         }
         return true
+    }
+
+    fun countArticles()
+    {
+
+        var articleCount = favouriteArticlesArray.size
+        var articleMessage = "Number of articles saved: $articleCount"
+        Snackbar.make(activity_favourite_articles_favouritesListView, articleMessage, Snackbar.LENGTH_LONG)
+            .setAction("Stats", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the number of articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+    fun maxWords()
+    {
+        var maxWords = 0
+        for (i in 0..favouriteArticlesArray.size-1)
+        {
+            var words = favouriteArticlesArray[i]?.description?.split(' ')
+            var wordCount = words!!.size
+            if(maxWords<wordCount)
+            {
+                maxWords = wordCount
+            }
+        }
+        var maxWordsMessage = "The max word count of all articles saved is: $maxWords"
+        Snackbar.make(activity_favourite_articles_favouritesListView, maxWordsMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the max word count of all articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+
+    fun minWords()
+    {
+        var minWords = 0
+        if (favouriteArticlesArray.size > 0){
+            minWords = favouriteArticlesArray[0]?.description?.split(' ')!!.size
+            for (i in 1..favouriteArticlesArray.size-1)
+            {
+                var words = favouriteArticlesArray[i]?.description?.split(' ')
+                var wordCount = words!!.size
+                if(minWords>wordCount)
+                {
+                    minWords = wordCount
+                }
+            }
+        }
+
+        var minWordsMessage = "The min word count of all articles saved is: $minWords"
+        Snackbar.make(activity_favourite_articles_favouritesListView, minWordsMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the min word count of all articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+
+    fun averageWords()
+    {
+        var totalWords = 0
+        for (i in 0..favouriteArticlesArray.size-1)
+        {
+            var words = favouriteArticlesArray[i]?.description?.split(' ')!!.size
+            totalWords+=words
+        }
+        var averageWords = (totalWords/favouriteArticlesArray.size)
+        var averageMessage = "The average word count of all articles saved is: $averageWords"
+        Snackbar.make(activity_favourite_articles_favouritesListView, averageMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the average word count of all articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+
     }
 
     inner class FavouritesAdapter(ctx: Context): ArrayAdapter<FavouriteStory>(ctx, 0) {
