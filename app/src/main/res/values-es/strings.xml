@@ -13,6 +13,14 @@
     <string name="food_search_name">Nombre:</string>
     <string name="food_search_calories">Calorías:</string>
     <string name="food_search_fat">Grasa:</string>
+    <string name="news_recent_news_title">Noticias Recentes</string>
+    <string name="news_list_item_author_placeholder">Nombre de Autor</string>
+    <string name="news_list_overflow_menu_favourite_news">Noticias Favoritas</string>
+    <string name="menu_help_item">Ayuda</string>
+    <string name="news_help_dialog_title">Como Usar El CBC News Reader</string>
+    <string name="news_help_dialog_step_1">1. Las noticias mas recentes cargan automaticamente!</string>
+    <string name="news_help_dialog_step_2">2. Presiona un articulo para ver sus detalles o para agregarlo a tus favoritos.</string>
+    <string name="news_help_dialog_step_3">Tambiene puedes ver el articulo en el web con el link in la página de detalles</string>
     <string name="food_help_author">Autor: Oluwakemi Mafe</string>
     <string name="food_help_version">Versión 1.0.0</string>
     <string name="food_help_instruction_title">How to use Food Analysis Application</string>
@@ -34,4 +42,17 @@
     <string name="food_details_texthint_tagName">Nombre de etiqueta de comida</string>
     <string name="food_dialog_title">Añadir etiqueta</string>
     <string name="food_help_dialog_done">Hecho</string>
+    <!--Movie Strings Spanish-->
+    <!--TODO: Translate to spanish-->
+    <string name="movieHelpTitle">How To Use the CBC News Reader</string>
+    <string name="movieAppAuthor">Author: Adam Nieuwenhuizen</string>
+    <string name="movieAppVersion">Version: 1.0</string>
+    <string name="movieHelpInstruction1">1. Enter a movie title into the search field and press search. This will give you a list of movies based on search criteria. </string>
+    <string name="movieHelpInstruction2">2. Click the movie you wish to view the information for.</string>
+    <string name="movieHelpInstruction3">3. From the movie details page, you may choose to save the movie to a Favorites List for later.</string>
+    <string name="movieHelpInstruction4">4. Click on each movie in the Favorites list to view its details.</string>
+    <string name="movieHelpInstruction5">5. Click on the Delete button on the Movie Details Page to delete movie from Favorites list.</string>
+    <string name="movieHelpInstruction6">6. You can navigate to any of the other apps within the Movie Search App. </string>
+    <string name="movie_saved_list_title">Favorite Movies</string>
+    <string name="searchBtn">Search</string>
 </resources>

@@ -15,6 +15,17 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_news_detail.*
 
+/**
+ * Article Detail Class
+ * @author Jordan Willis
+ * This class is designed to take a member from the NewsList.newsStoryArray and present a detail view of the article selected
+ * @param receivedStory The story received from the previous Activity's intent. This story will make up the data
+ * presented in the activity
+ * @param favouriteArticlesArray Will contain the returned array from the database query
+ * @param dbHelper An interface for making the database queries and saving
+ * @param SQL_CREATE_ENTRIES Variable for holding the commands for creating the base table schema
+ * */
+
 class NewsDetail : AppCompatActivity() {
 
     var receivedStory = NewsList.Story(null, null, null, null, null, null)
@@ -96,10 +107,10 @@ class NewsDetail : AppCompatActivity() {
 
             R.id.foodHelpIcon -> {
 
-                var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
+                var dialogStuff = layoutInflater.inflate(R.layout.news_help_dialog, null)
 
                 var builder =  AlertDialog.Builder(this)
-                builder.setTitle("About Food Analysis")
+                builder.setTitle("About CBC News Reader")
                 builder.setView(dialogStuff) //insert view into dialog
 
                 // Add the buttons

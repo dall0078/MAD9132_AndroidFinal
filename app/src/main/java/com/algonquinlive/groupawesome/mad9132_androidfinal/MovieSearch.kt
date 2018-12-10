@@ -6,6 +6,9 @@ import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.Movie
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -16,9 +19,19 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.*
+import com.algonquinlive.groupawesome.mad9132_androidfinal.R.id.nav_toolbar
 import kotlinx.android.synthetic.main.activity_movie_saved_list_main_row.*
 import kotlinx.android.synthetic.main.activity_movie_search.*
+import kotlinx.android.synthetic.main.activity_news_list.*
+import org.json.JSONObject
 import org.w3c.dom.Text
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserFactory
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
 
 
 //----------------------------------------------------------------//
@@ -26,39 +39,21 @@ import org.w3c.dom.Text
 //                        Movie Search Activity
 //                              Nov 2018
 //----------------------------------------------------------------//
-
+//TODO: Make progress bar invisible
 
 class MovieSearch : AppCompatActivity() {
 
-    //----------- Declare Variables -------------//
+//----------- Declare lateinit Variables -------------//
 
-    var favoriteMovieListArray = ArrayList<MovieData>()
-
-    //----------- Declare lateinit Variables -------------//
-
+//    TODO: Clean this up, causing uninitialized errors
     lateinit var listItem: ListView
-    lateinit var listAdapter: MovieAdapter
-    lateinit var movieTitle: TextView
-    lateinit var movieReleaseDate: TextView
-    lateinit var movieRating: TextView
-    lateinit var movieRuntime: TextView
-    lateinit var movieActors: TextView
-    lateinit var moviePlot: TextView
-    lateinit var moviePosterUrl: TextView
-    lateinit var movieSearchUserInput : String
-
-//    progress bar
-    lateinit var movieSearchProgressBar: ProgressBar
-
-//    database
-    lateinit var movieDB: SQLiteDatabase
-    lateinit var movieResults: Cursor
-    //lateinit var movieDbHelper: MovieDatabaseHelper //this will be an inner class of SQLite
-
-    var movieItemPosition = 0
+    //lateinit var listAdapter: MovieAdapter
+    lateinit var movieTitle: TextView //textview for movie Title
 
 
 
+    var favoriteMovieListArray = ArrayList<MovieData?>()
+    lateinit var movieAdapter: MovieAdapter
 
     //store required information in data class
     data class MovieData(var movieTitle: String?,
@@ -70,34 +65,61 @@ class MovieSearch : AppCompatActivity() {
                          var moviePosterUrl: String?)
 
 
+//    progress bar
+//    lateinit var movieSearchProgressBar: ProgressBar
+
+//    database
+    lateinit var movieDB: SQLiteDatabase
+    lateinit var movieResults: Cursor
+
+
+    var movieItemPosition = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_search)
 
-        val addButton = findViewById<ImageButton>(R.id.addMovieButton)
+        var movieSearchProgressBar: ProgressBar = findViewById(R.id.movieSearchProgressBar)
+        //movieSearchProgressBar = 0
+        movieSearchProgressBar.visibility = View.VISIBLE
 
-        addButton.setOnClickListener{
-            Toast.makeText(this, "So Toasty", Toast.LENGTH_LONG).show()
+
+
+        val searchButton = findViewById<Button>(R.id.searchForMovie)
+        searchForMovie.setOnClickListener {
+
+            val intent = Intent ()
+
+            intent.putExtra("MovieTitle", movieTitle.text.toString())
+            //TODO: Capture user input
+
+//            Toast
+            var inputToast = findViewById(R.id.movie_search_input) as EditText
+            Toast.makeText(this, inputToast.text, Toast.LENGTH_SHORT).show()
         }
 
 
+//TODO: Fix navigation handler
+        //Navigation handler function, uses NavigationClickHandler Activity
         //NavigationClickHandler(this).initializePage()
 
-            val listItems: ListView = movieSearchListView
 
-        listItems.setOnItemClickListener {_, _, position, _ ->
+            listItem = findViewById(R.id.movie_search_listView)
+
+//        Send selected movie details to MovieDetails activity
+            listItem.setOnItemClickListener {_, _, position, _ ->
 
             val intent = Intent(this, MovieDetails::class.java)
 
+            //movie data to be sent
+            intent.putExtra("title",favoriteMovieListArray[position]?.movieTitle)
+            intent.putExtra("release",favoriteMovieListArray[position]?.movieReleaseDate)
+            intent.putExtra("rating",favoriteMovieListArray[position]?.movieRating)
+            intent.putExtra("runtime",favoriteMovieListArray[position]?.movieRuntime)
+            intent.putExtra("actors",favoriteMovieListArray[position]?.movieActors)
+            intent.putExtra("plot",favoriteMovieListArray[position]?.moviePlot)
 
-        intent.putExtra("title", favoriteMovieListArray[position]?.movieTitle)
-        intent.putExtra("release", favoriteMovieListArray[position]?.movieReleaseDate)
-        intent.putExtra("rating", favoriteMovieListArray[position]?.movieRating)
-        intent.putExtra("runtime", favoriteMovieListArray[position]?.movieRuntime)
-        intent.putExtra("starring", favoriteMovieListArray[position]?.movieActors)
-        intent.putExtra("plot", favoriteMovieListArray[position]?.moviePlot)
-        intent.putExtra("poster", favoriteMovieListArray[position]?.moviePosterUrl)
 
             startActivity(intent)
     }
@@ -109,16 +131,16 @@ class MovieSearch : AppCompatActivity() {
         //Toolbar Appears on screen, shows each activity, doesn't navigate yet
         //searchtextview bleeds into it
 
-        var movieSearchToolBar = findViewById<Toolbar>(R.id.movieSearchToolbar)
-        setSupportActionBar(movieSearchToolbar)
+       val toolBar = nav_toolbar
+        setSupportActionBar(toolBar)
 
-        //add navigation toolbar
-        var drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        var toggle = ActionBarDrawerToggle(this, drawer, movieSearchToolbar, R.string.open, R.string.close)
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
-        var navView = findViewById<View>(R.id.navigationView)
 
+
+        val myQuery = MovieQuery()
+        myQuery.execute()
+
+        movieAdapter = MovieAdapter(this)
+        listItem.adapter = movieAdapter
 
 
 
@@ -130,6 +152,8 @@ class MovieSearch : AppCompatActivity() {
         menuInflater.inflate(R.menu.movie_list_tool_bar_menu, menu)
         return true
     }
+
+
 
     //-----------Handle selected items in menu -------------//
 
@@ -164,9 +188,6 @@ class MovieSearch : AppCompatActivity() {
     }
 
 
-    //----------- Create OMDB API request -------------//
-
-
 
 
 
@@ -199,52 +220,96 @@ class MovieSearch : AppCompatActivity() {
 
     }
 
-//   ---------------------- Databases ---------------------//
-
-    val DATABASE_NAME = "MovieFavorites.db"
-    val VERSION_NUM= 1
-    val TABLE_NAME= "FavoriteMovieItem"
-    val MOVIEITEMKEY = "MovieItems"
-
-//    Create inner class MovieDatabaseHelper
-
-    inner class MovieDataBaseHelper : SQLiteOpenHelper(this@MovieSearch, DATABASE_NAME, null, VERSION_NUM) {
 
 
-        override fun onCreate(db: SQLiteDatabase?) {
 
-            //creates saved movie data base table
+//    Create inner class for Movie Query *ASYNC TASK*
+//    XML PULL PARSER HERE
 
-            db?.execSQL("CREATE TABLE $TABLE_NAME (_id INTEGER PRIMARY KEY AUTOINCREMENT, $MOVIEITEMKEY TEXT)")
-            Log.i("MovieDataBaseHelper", "calling OnCreate")
+    inner class MovieQuery : AsyncTask<String, Integer, String>() {
+        var movie: MovieData? = null
+        var movieSearchProgress = 0
+
+        lateinit var bitmap: Bitmap
+
+
+        override fun doInBackground(vararg params: String?): String {
+            //connect to the OMDB API with url
+
+            //assign value to userQuery through user input search
+            val userQuery = findViewById<EditText>(R.id.movie_search_input).toString()
+            //creates URL encoded query for search
+            val url = URL("http://www.omdbapi.com/?apikey=6c9862c2&r=xml&&t=" + URLEncoder.encode(userQuery, "UTF-8"))
+
+            val connection = url.openConnection() as HttpURLConnection
+            val response = connection.inputStream
+
+
+            val factory = XmlPullParserFactory.newInstance()
+            factory.isNamespaceAware = false
+            val xpp = factory.newPullParser()
+            xpp.setInput(response, "UTF-8")
+            var eventType = xpp.eventType
+
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                Log.d("Parsing: ", "Event Type: ${xpp.eventType}, Event Name: ${xpp.name}")
+                when (eventType) {
+                    XmlPullParser.START_TAG -> {
+                        if (xpp.name == "movie") {
+                            movieSearchProgress += 100
+                            Log.d("Found movie tag", "Creating Movie Object")
+                            this.movie = MovieData(null, null, null, null, null, null, null)
+                        } else if (this.movie != null) {
+                            when {
+
+                                xpp.name == "title" -> this.movie?.movieTitle = xpp.nextText() //grabs title from OMDB
+                                xpp.name == "year" -> this.movie?.movieReleaseDate = xpp.nextText() //grabs year from OMDB
+                                xpp.name == "rated" -> this.movie?.movieRating = xpp.nextText() //grabs rating from OMDB
+                                xpp.name == "runtime" -> this.movie?.movieRuntime = xpp.nextText() //grabs runtime from OMDB
+                                xpp.name == "actors" -> this.movie?.movieActors = xpp.nextText() //grabs actors from OMDB
+                                xpp.name == "plot" -> this.movie?.moviePlot = xpp.nextText() //grabs plot from OMDB
+                                xpp.name == "poster" -> this.movie?.moviePosterUrl = xpp.nextText() //grabs posterurl from OMDB
+
+                            }
+
+                        Log.d("Added Fields: ", "${this.movie?.movieTitle}")
+                    }
+                    publishProgress()
+                }
+
+                XmlPullParser.END_TAG -> {
+                    if (xpp.name == "movie") {
+                        favoriteMovieListArray.add(this.movie)
+                        this.movie = null
+                    }
+                }
+            }
+
+            eventType = xpp.next()
+        }
+            Log.d("Array: ", "$favoriteMovieListArray")
+            return "Done"
         }
 
-        override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-            //delete old data from assigned database
-            db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
 
-            //create new table from assigned database
-            onCreate(db)
-            Log.i("MovieDataBaseHelper", "Calling onUpgrade, oldVersion=" + oldVersion + "newVersion" + newVersion)
+        override fun onPostExecute(result: String?) {
+                movieAdapter.notifyDataSetChanged()
+           // movieSearchProgressbar.visibility = View.INVISIBLE // hide progress bar
+            movieSearchProgressBar.visibility = View.INVISIBLE
+
+
         }
+
+        override fun onProgressUpdate(vararg values: Integer?) {
+            super.onProgressUpdate(*values)
+            movieSearchProgressBar.setProgress((movieSearchProgress))
+            movieSearchProgressBar.visibility = View.VISIBLE
+
+        }
+
+
+
+
     }
-
-
-        //    delete item from array
-        fun deleteMovieItem(id:Long) {
-
-        movieDB.delete(TABLE_NAME, "_id=$id", null)
-
-        //    find item in table
-        movieResults = movieDB.query(TABLE_NAME, arrayOf("_id", MOVIEITEMKEY),
-        null, null, null, null, null, null)
-
-
-        favoriteMovieListArray.removeAt(movieItemPosition)
-        Log.i("MovieSearch", favoriteMovieListArray.toString())
-
-        //reload list of movies
-        listAdapter.notifyDataSetChanged()
-}
 
 }

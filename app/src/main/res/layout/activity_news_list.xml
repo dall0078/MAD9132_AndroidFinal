@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent" android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/nav_toolbar"
@@ -13,7 +13,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/nav_toolbar">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
+            <!-- start of change areas -->
+            <!--SearchBar should go first-->
+            <ProgressBar android:id="@+id/progressBar"
+                         android:layout_width="match_parent"
+                         android:layout_height="20dp"
+                         android:visibility="invisible"
+                         style="?android:attr/progressBarStyleHorizontal"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/progressBar"
+                      android:id="@+id/favouritesListHeader"
+                      android:text="@string/news_recent_news_title"/>
+
+            <ListView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/favouritesListHeader"
+                      android:id="@+id/newsItemsListView">
+            </ListView>
+
+
+            <!-- end of change areas -->
+
+        </RelativeLayout>
         <android.support.design.widget.NavigationView
                 android:id="@+id/navigationView"
                 android:layout_width="wrap_content"
@@ -22,24 +48,5 @@
                 android:fitsSystemWindows="true"
                 android:layout_gravity="start"
                 app:menu="@menu/nav_menu"/>
-
-    <!--SearchBar should go first-->
-    <ProgressBar android:id="@+id/progressBar"
-                 android:layout_width="match_parent"
-                 android:layout_height="20dp"
-                 android:visibility="invisible"
-                 style="?android:attr/progressBarStyleHorizontal"/>
-
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_below="@id/progressBar"
-              android:id="@+id/favouritesListHeader"
-              android:text="Recent News"/>
-
-    <ListView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_below="@id/favouritesListHeader"
-              android:id="@+id/newsItemsListView">
-    </ListView>
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

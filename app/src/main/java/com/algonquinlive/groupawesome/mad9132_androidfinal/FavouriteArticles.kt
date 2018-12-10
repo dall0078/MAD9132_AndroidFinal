@@ -8,12 +8,26 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_favourite_articles.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
+
+/**
+ * Favourite Article List Class
+ * @author Jordan Willis
+ * This class is designed to get an array of articles from the SQLite database that contains the
+ * user's favourite articles.
+ * @param favouritesAdapter The adapter that will connect the array returned by the database query to the ListView in the layout
+ * @param favouriteArticlesArray Will contain the returned array from the database query
+ * @param FavouriteStory The data class object that contains all the data related to a single article
+ * @param DATABASE_NAME The name of the database for storing the favourite articles
+ * @param VERSION_NUM The version of the database used for storing favourite articles
+ * */
 
 class FavouriteArticles : AppCompatActivity() {
 
@@ -95,10 +109,10 @@ class FavouriteArticles : AppCompatActivity() {
 
             R.id.foodHelpIcon -> {
 
-                var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
+                var dialogStuff = layoutInflater.inflate(R.layout.news_help_dialog, null)
 
                 var builder =  AlertDialog.Builder(this)
-                builder.setTitle("About Food Analysis")
+                builder.setTitle("About CBC News Reader")
                 builder.setView(dialogStuff) //insert view into dialog
 
                 // Add the buttons
@@ -126,9 +140,107 @@ class FavouriteArticles : AppCompatActivity() {
                 var intent = Intent(this, BusSearch::class.java)
                 startActivity(intent)
             }
+            R.id.news_menu_saved_article_count -> {
+                countArticles()
+            }
 
+            R.id.news_menu_saved_article_most_words -> {
+                maxWords()
+            }
+
+            R.id.news_menu_saved_article_least_words -> {
+                minWords()
+            }
+
+            R.id.news_menu_saved_article_average_words -> {
+                averageWords()
+            }
         }
         return true
+    }
+
+    /**
+     * Method used to count the total articles in the favourites array
+     * @return The total number of articles in the favouriteStoriesArray
+     */
+    fun countArticles()
+    {
+
+        var articleCount = favouriteArticlesArray.size
+        var articleMessage = "Number of articles saved: $articleCount"
+        Snackbar.make(activity_favourite_articles_favouritesListView, articleMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the number of articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+    /**
+     * Method used to find the article with the most words and return the count of the words
+     * @return The total number of words in the article with the highest word count
+     */
+    fun maxWords()
+    {
+        var maxWords = 0
+        for (i in 0..favouriteArticlesArray.size-1)
+        {
+            var words = favouriteArticlesArray[i]?.description?.split(' ')
+            var wordCount = words!!.size
+            if(maxWords<wordCount)
+            {
+                maxWords = wordCount
+            }
+        }
+        var maxWordsMessage = "The max word count of all articles saved is: $maxWords"
+        Snackbar.make(activity_favourite_articles_favouritesListView, maxWordsMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the max word count of all articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+    /**
+     * Method used to find the article with the least words and return the count of the words
+     * @return The total number of words in the article with the lowest word count
+     */
+    fun minWords()
+    {
+        var minWords = 0
+        if (favouriteArticlesArray.size > 0){
+            minWords = favouriteArticlesArray[0]?.description?.split(' ')!!.size
+            for (i in 1..favouriteArticlesArray.size-1)
+            {
+                var words = favouriteArticlesArray[i]?.description?.split(' ')
+                var wordCount = words!!.size
+                if(minWords>wordCount)
+                {
+                    minWords = wordCount
+                }
+            }
+        }
+
+        var minWordsMessage = "The min word count of all articles saved is: $minWords"
+        Snackbar.make(activity_favourite_articles_favouritesListView, minWordsMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the min word count of all articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+    }
+
+    fun averageWords()
+    {
+        var totalWords = 0
+        for (i in 0..favouriteArticlesArray.size-1)
+        {
+            var words = favouriteArticlesArray[i]?.description?.split(' ')!!.size
+            totalWords+=words
+        }
+        var averageWords = (totalWords/favouriteArticlesArray.size)
+        var averageMessage = "The average word count of all articles saved is: $averageWords"
+        Snackbar.make(activity_favourite_articles_favouritesListView, averageMessage, Snackbar.LENGTH_LONG)
+            .setAction("Info", {
+                    e -> Toast.makeText(this@FavouriteArticles, "This is the average word count of all articles saved", Toast.LENGTH_LONG).show()
+            })
+            .show()
+
     }
 
     inner class FavouritesAdapter(ctx: Context): ArrayAdapter<FavouriteStory>(ctx, 0) {
