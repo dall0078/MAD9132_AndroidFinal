@@ -47,12 +47,7 @@ class NewsList : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_list)
 
-     //   val toolBar = nav_toolbar
-      //  setSupportActionBar(toolBar)
-
         NavigationClickHandler(this)
-
-
 
         val listItems: ListView = newsItemsListView
 
@@ -91,39 +86,6 @@ class NewsList : AppCompatActivity(){
                 startActivity(intent)
             }
 
-            R.id.foodHelpIcon -> {
-
-                var dialogStuff = layoutInflater.inflate(R.layout.news_help_dialog, null)
-
-                var builder =  AlertDialog.Builder(this)
-                builder.setTitle("About CBC News Reader")
-                builder.setView(dialogStuff) //insert view into dialog
-
-                // Add the buttons
-                builder.setPositiveButton(R.string.food_help_dialog_done) { _, _ -> }
-
-                // Create the AlertDialog
-                var dialog = builder.create()
-                dialog.show()
-            }
-
-            R.id.item_cbc ->{
-
-                var intent = Intent(this, NewsList::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_movie ->{
-
-                var intent = Intent(this, MovieSearch::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_bus ->{
-
-                var intent = Intent(this, BusSearch::class.java)
-                startActivity(intent)
-            }
             R.id.news_menu_saved_article_count -> {
                 countArticles()
             }
