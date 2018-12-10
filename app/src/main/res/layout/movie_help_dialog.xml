@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/movieAppAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieAppAuthor"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/movieAppVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieAppVersion"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/movieHelpTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpTitle"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/movieHelpInstruction1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpInstruction1"
+            android:layout_marginBottom="12dp"/>
+
+    <TextView
+            android:id="@+id/movieHelpInstruction2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpInstruction2"
+            android:layout_marginBottom="12dp"/>
+
+    <TextView
+            android:id="@+id/movieHelpInstruction3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpInstruction3"
+            android:layout_marginBottom="12dp"/>
+
+    <TextView
+            android:id="@+id/movieHelpInstruction4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpInstruction4"
+            android:layout_marginBottom="12dp"/>
+    <TextView
+            android:id="@+id/movieHelpInstruction5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpInstruction4"
+            android:layout_marginBottom="12dp"/>
+
+    <TextView
+            android:id="@+id/movieHelpInstruction6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movieHelpInstruction6"/>
+
+</LinearLayout>
