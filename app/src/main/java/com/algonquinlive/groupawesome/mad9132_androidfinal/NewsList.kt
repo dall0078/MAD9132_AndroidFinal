@@ -191,12 +191,10 @@ class NewsList : AppCompatActivity(){
         var averageWords = (totalWords/newsStoryArray.size)
         var averageMessage = "The average word count of all articles fetched is: $averageWords"
         Snackbar.make(newsItemsListView, averageMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info", {
-                    e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
-            })
+            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
+            }
             .show()
-        }
-        return true
+
     }
 
 

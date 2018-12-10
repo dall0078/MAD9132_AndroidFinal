@@ -153,7 +153,7 @@ class FavouriteArticles : AppCompatActivity() {
         var articleCount = favouriteArticlesArray.size
         var articleMessage = "Number of articles saved: $articleCount"
         Snackbar.make(activity_favourite_articles_favouritesListView, articleMessage, Snackbar.LENGTH_LONG)
-            .setAction("Stats", {
+            .setAction("Info", {
                     e -> Toast.makeText(this@FavouriteArticles, "This is the number of articles saved", Toast.LENGTH_LONG).show()
             })
             .show()
