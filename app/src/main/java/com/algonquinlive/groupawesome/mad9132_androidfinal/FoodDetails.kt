@@ -20,13 +20,8 @@ import android.widget.TextView
 import android.widget.Toast
 
 /**
- * This page displays the fat content, calories count, food name and food tag if any
- * @param foodSnackbarMessage is used to hold the message to be displayed when snackbar is launched
- * @param onCreate is a life cycle function that gets called when the application loads up
- * @param foodCancelBtn is the cancel button on details page which is used to return to the food search page
- * @param foodDeleteBtn is used to delete food items from the database and favorites list. This button uses a Snackbar and Toast to confirm if users intend to delete an item
- * @param foodDetailsToolbar this references the toolbar item "search"
- **/
+ * @author Oluwakemi Mafe
+ * This page displays the fat content, calories count, food name and food tag if any**/
 
 class FoodDetails : AppCompatActivity() {
 
@@ -40,6 +35,10 @@ class FoodDetails : AppCompatActivity() {
     var tagArray = ArrayList<Double>()
 
     var total = 0.0
+
+    /**
+     * onCreate is a life cycle function that gets called when the application loads up
+     * @param savedInstanceState*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_details)
@@ -75,9 +74,8 @@ class FoodDetails : AppCompatActivity() {
 
 
     /**
-     * used to specify the options menu for this activity and is used to create the options menu when called
-     * menu resource will be inflated in this function
-     * */
+     * onCreateOptionsMenu used to specify the options menu for this activity and is used to create the options menu when called
+     * @param  menu resource will be inflated in this function*/
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.food_tool_bar_menu2, menu)
 
@@ -85,9 +83,9 @@ class FoodDetails : AppCompatActivity() {
     }
 
     /**
-     * used to specify what action you want each menu item to perform
+     * onOptionsItemSelected used to specify what action you want each menu item to perform
      * the specific id of each menu items will be referenced and actions will be assigned to each of them
-     * */
+     * @param item*/
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
@@ -131,12 +129,10 @@ class FoodDetails : AppCompatActivity() {
     }
 
     /**
-     * This function is used to set the GUI values. it checks if food tag is empty and set the value of foodTagDetails if not empty then displays the textview for food tag
-     * @param foodname stores food name
-     * @param foodcalories stores food calories
-     * @param foodfat stores food fat
-     * @param foodtag stores food tag
-     * */
+     * onActivityResult is used to set the GUI values. it checks if food tag is empty and set the value of foodTagDetails if not empty then displays the textview for food tag
+     * @param requestCode
+     * @param resultCode
+     * @param data*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //super.onActivityResult(requestCode, resultCode, data)
 
@@ -168,6 +164,7 @@ class FoodDetails : AppCompatActivity() {
         }
     }
 
+
     ///creating databases
 
     val DATABASE_NAME = "FoodFav.db"
@@ -178,14 +175,22 @@ class FoodDetails : AppCompatActivity() {
     val FOODCALORIESKEY = "FoodCalories"
     val FOODTAGKEY = "FoodTag"
 
+    /**
+     * FoodDatabaseHelper is the database interface for this application*/
     inner class FoodDatabaseHelper : SQLiteOpenHelper(this@FoodDetails, DATABASE_NAME, null, VERSION_NUM) {
 
+        /**
+         * onCreate creates the database
+         * @param db*/
         override fun onCreate(db: SQLiteDatabase) {
 
             db.execSQL("CREATE TABLE $TABLE_NAME ( _id INTEGER PRIMARY KEY AUTOINCREMENT, $FOODITEMKEY TEXT, $FOODFATKEY INTEGER, $FOODCALORIESKEY INTEGER, $FOODTAGKEY TEXT)") //creates table
             Log.i("FoodDatabaseHelper", "Calling onCreate")
         }
 
+        /**
+         * onUpgrade deletes old version of database and creates a new version
+         * @param db */
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
 
             db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME") //deletes old data
@@ -197,6 +202,10 @@ class FoodDetails : AppCompatActivity() {
 
     }
 
+    /**
+     * showFoodItemWithSameTag queries the database for food items with similar tags
+     * @param caloriesIndex holds the value for index of calories column in database
+     * @param calories holds the actual value for */
     fun showFoodItemWithSameTag(tag:String?){
 
         foodResults = foodDB.query(TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
