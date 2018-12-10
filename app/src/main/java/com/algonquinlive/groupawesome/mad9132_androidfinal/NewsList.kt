@@ -22,6 +22,15 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.regex.Pattern
 
+/**
+ * News Article List Class
+ * @author Jordan Willis
+ * This class is designed to fetch asynchronously a list of articles from an XML feed served by the CBC and present them
+ * in a ListView to the user
+ * @param storyAdapter The adapter that will connect the array returned by the fetch to the ListView in the layout
+ * @param newsStoryArray Array to contain the array of Story data class objects that hold individual article data
+ * @param Story The data class object that contains all the data related to a single article
+ * */
 
 class NewsList : AppCompatActivity(){
 
@@ -85,7 +94,7 @@ class NewsList : AppCompatActivity(){
                 builder.setView(dialogStuff) //insert view into dialog
 
                 // Add the buttons
-                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+                builder.setPositiveButton(R.string.food_help_dialog_done) { _, _ -> }
 
                 // Create the AlertDialog
                 var dialog = builder.create()
@@ -125,15 +134,17 @@ class NewsList : AppCompatActivity(){
         return true
     }
 
+    /**
+     * @param
+     */
     fun countArticles()
     {
 
         var articleCount = newsStoryArray.size
         var articleMessage = "Number of fetched articles: $articleCount"
         Snackbar.make(newsItemsListView, articleMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info", {
-                    e -> Toast.makeText(this@NewsList, "This is the number of articles fetched", Toast.LENGTH_LONG).show()
-            })
+            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the number of articles fetched", Toast.LENGTH_LONG).show()
+            }
             .show()
     }
     fun maxWords()
@@ -150,9 +161,8 @@ class NewsList : AppCompatActivity(){
         }
         var maxWordsMessage = "The max word count of all articles fetched is: $maxWords"
         Snackbar.make(newsItemsListView, maxWordsMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info", {
-                    e -> Toast.makeText(this@NewsList, "This is the highest word count of all articles fetched", Toast.LENGTH_LONG).show()
-            })
+            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the highest word count of all articles fetched", Toast.LENGTH_LONG).show()
+            }
             .show()
     }
 
@@ -174,9 +184,8 @@ class NewsList : AppCompatActivity(){
 
         var minWordsMessage = "The min word count of all articles fetched is $minWords"
         Snackbar.make(newsItemsListView, minWordsMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info", {
-                    e -> Toast.makeText(this@NewsList, "This is the least word count of all articles fetched", Toast.LENGTH_LONG).show()
-            })
+            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the least word count of all articles fetched", Toast.LENGTH_LONG).show()
+            }
             .show()
     }
 
@@ -191,9 +200,8 @@ class NewsList : AppCompatActivity(){
         var averageWords = (totalWords/newsStoryArray.size)
         var averageMessage = "The average word count of all articles fetched is: $averageWords"
         Snackbar.make(newsItemsListView, averageMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info", {
-                    e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
-            })
+            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
+            }
             .show()
         }
         return true
@@ -217,7 +225,8 @@ class NewsList : AppCompatActivity(){
             val articleImageView = result.storyListItemImage
             val imgSrc = story?.imageLink
             val htmlString = "<img src='$imgSrc'/>"
-            articleImageView.loadDataWithBaseURL(null, "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + htmlString, "text/html", "UTF-8", null)
+            articleImageView.loadDataWithBaseURL(null,
+                "<style>img{display: inline;height: auto;max-width: 100%;}</style>$htmlString", "text/html", "UTF-8", null)
 
             return result
         }
