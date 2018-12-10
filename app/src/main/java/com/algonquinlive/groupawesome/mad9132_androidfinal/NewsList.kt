@@ -35,13 +35,20 @@ import java.util.regex.Pattern
  * @param Story The data class object that contains all the data related to a single article
  * */
 
-class NewsList : AppCompatActivity(){
+class NewsList : AppCompatActivity() {
 
     var newsStoryArray = ArrayList<Story?>()
 
     lateinit var storyAdapter: NewsAdapter
 
-    data class Story(var title: String?, var author: String?, var date: String?, var link: String?, var imageLink: String?, var description: String?)
+    data class Story(
+        var title: String?,
+        var author: String?,
+        var date: String?,
+        var link: String?,
+        var imageLink: String?,
+        var description: String?
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,16 +58,16 @@ class NewsList : AppCompatActivity(){
 
         val listItems: ListView = newsItemsListView
 
-        listItems.setOnItemClickListener {_, _, position, _ ->
+        listItems.setOnItemClickListener { _, _, position, _ ->
 
             val intent = Intent(this, NewsDetail::class.java)
 
-            intent.putExtra("title",newsStoryArray[position]?.title)
-            intent.putExtra("author",newsStoryArray[position]?.author)
-            intent.putExtra("date",newsStoryArray[position]?.date)
-            intent.putExtra("link",newsStoryArray[position]?.link)
-            intent.putExtra("description",newsStoryArray[position]?.description)
-            intent.putExtra("imageLink",newsStoryArray[position]?.imageLink)
+            intent.putExtra("title", newsStoryArray[position]?.title)
+            intent.putExtra("author", newsStoryArray[position]?.author)
+            intent.putExtra("date", newsStoryArray[position]?.date)
+            intent.putExtra("link", newsStoryArray[position]?.link)
+            intent.putExtra("description", newsStoryArray[position]?.description)
+            intent.putExtra("imageLink", newsStoryArray[position]?.imageLink)
 
             startActivity(intent)
         }
@@ -79,7 +86,7 @@ class NewsList : AppCompatActivity(){
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
+        when (item.itemId) {
 
             R.id.favourite_news_toolbar_menu_button -> {
                 var intent = Intent(this, FavouriteArticles::class.java)
@@ -105,46 +112,46 @@ class NewsList : AppCompatActivity(){
     /**
      * @param
      */
-    fun countArticles()
-    {
+    fun countArticles() {
 
         var articleCount = newsStoryArray.size
         var articleMessage = "Number of fetched articles: $articleCount"
         Snackbar.make(newsItemsListView, articleMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the number of articles fetched", Toast.LENGTH_LONG).show()
+            .setAction("Info") { e ->
+                Toast.makeText(this@NewsList, "This is the number of articles fetched", Toast.LENGTH_LONG).show()
             }
             .show()
     }
-    fun maxWords()
-    {
+
+    fun maxWords() {
         var maxWords = 0
-        for (i in 0..newsStoryArray.size-1)
-        {
+        for (i in 0..newsStoryArray.size - 1) {
             var words = newsStoryArray[i]?.description?.split(' ')
             var wordCount = words!!.size
-            if(maxWords<wordCount)
-            {
+            if (maxWords < wordCount) {
                 maxWords = wordCount
             }
         }
         var maxWordsMessage = "The max word count of all articles fetched is: $maxWords"
         Snackbar.make(newsItemsListView, maxWordsMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the highest word count of all articles fetched", Toast.LENGTH_LONG).show()
+            .setAction("Info") { e ->
+                Toast.makeText(
+                    this@NewsList,
+                    "This is the highest word count of all articles fetched",
+                    Toast.LENGTH_LONG
+                ).show()
             }
             .show()
     }
 
-    fun minWords()
-    {
+    fun minWords() {
         var minWords = 0
-        if (newsStoryArray.size > 0){
+        if (newsStoryArray.size > 0) {
             minWords = newsStoryArray[0]?.description?.split(' ')!!.size
-            for (i in 1..newsStoryArray.size-1)
-            {
+            for (i in 1..newsStoryArray.size - 1) {
                 var words = newsStoryArray[i]?.description?.split(' ')
                 var wordCount = words!!.size
-                if(minWords>wordCount)
-                {
+                if (minWords > wordCount) {
                     minWords = wordCount
                 }
             }
@@ -152,30 +159,35 @@ class NewsList : AppCompatActivity(){
 
         var minWordsMessage = "The min word count of all articles fetched is $minWords"
         Snackbar.make(newsItemsListView, minWordsMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the least word count of all articles fetched", Toast.LENGTH_LONG).show()
+            .setAction("Info") { e ->
+                Toast.makeText(this@NewsList, "This is the least word count of all articles fetched", Toast.LENGTH_LONG)
+                    .show()
             }
             .show()
     }
 
-    fun averageWords()
-    {
+    fun averageWords() {
         var totalWords = 0
-        for (i in 0..newsStoryArray.size-1)
-        {
+        for (i in 0..newsStoryArray.size - 1) {
             var words = newsStoryArray[i]?.description?.split(' ')!!.size
-            totalWords+=words
+            totalWords += words
         }
-        var averageWords = (totalWords/newsStoryArray.size)
+        var averageWords = (totalWords / newsStoryArray.size)
         var averageMessage = "The average word count of all articles fetched is: $averageWords"
         Snackbar.make(newsItemsListView, averageMessage, Snackbar.LENGTH_LONG)
-            .setAction("Info") { e -> Toast.makeText(this@NewsList, "This is the average word count of all articles fetched", Toast.LENGTH_LONG).show()
+            .setAction("Info") { e ->
+                Toast.makeText(
+                    this@NewsList,
+                    "This is the average word count of all articles fetched",
+                    Toast.LENGTH_LONG
+                ).show()
             }
             .show()
 
     }
 
 
-    inner class NewsAdapter(ctx: Context): ArrayAdapter<Story>(ctx, 0) {
+    inner class NewsAdapter(ctx: Context) : ArrayAdapter<Story>(ctx, 0) {
 
         override fun getCount(): Int {
             return newsStoryArray.size
@@ -192,8 +204,13 @@ class NewsList : AppCompatActivity(){
             val articleImageView = result.storyListItemImage
             val imgSrc = story?.imageLink
             val htmlString = "<img src='$imgSrc'/>"
-            articleImageView.loadDataWithBaseURL(null,
-                "<style>img{display: inline;height: auto;max-width: 100%;}</style>$htmlString", "text/html", "UTF-8", null)
+            articleImageView.loadDataWithBaseURL(
+                null,
+                "<style>img{display: inline;height: auto;max-width: 100%;}</style>$htmlString",
+                "text/html",
+                "UTF-8",
+                null
+            )
 
             return result
         }
@@ -228,11 +245,11 @@ class NewsList : AppCompatActivity(){
 
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 Log.d("PARSING: ", "Event Type: ${xpp.eventType}, Event Name: ${xpp.name}")
-                when(eventType) {
+                when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (xpp.name == "item") {
                             Log.d("FOUND ITEM TAG", "Creating Story Object")
-                            this.story = Story(null, null,null,null, null, null )
+                            this.story = Story(null, null, null, null, null, null)
                         } else if (this.story != null) {
                             when {
                                 xpp.name == "title" -> this.story?.title = xpp.nextText()
@@ -284,6 +301,7 @@ class NewsList : AppCompatActivity(){
             return arg
         }
     }
+
     object PatternMatcherGroupHtmlText {
 
         @JvmStatic
