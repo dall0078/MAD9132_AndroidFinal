@@ -36,9 +36,10 @@ class FoodDetails : AppCompatActivity() {
 
     var total = 0.0
 
+
     /**
      * onCreate is a life cycle function that gets called when the application loads up
-     * @param savedInstanceState*/
+     * @param savedInstanceState references the bundle object to be passed to this activity*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_details)
@@ -85,7 +86,8 @@ class FoodDetails : AppCompatActivity() {
     /**
      * onOptionsItemSelected used to specify what action you want each menu item to perform
      * the specific id of each menu items will be referenced and actions will be assigned to each of them
-     * @param item*/
+     * @param item reference each menu item in the menu bar
+     * @return boolean */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
@@ -130,9 +132,9 @@ class FoodDetails : AppCompatActivity() {
 
     /**
      * onActivityResult is used to set the GUI values. it checks if food tag is empty and set the value of foodTagDetails if not empty then displays the textview for food tag
-     * @param requestCode
-     * @param resultCode
-     * @param data*/
+     * @param requestCode reference the request code
+     * @param resultCode reference the result code
+     * @param data reference data passed by intent*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //super.onActivityResult(requestCode, resultCode, data)
 
@@ -190,7 +192,9 @@ class FoodDetails : AppCompatActivity() {
 
         /**
          * onUpgrade deletes old version of database and creates a new version
-         * @param db */
+         * @param db reference the database created
+         * @param oldVersion reference the version number of old database
+         * @param newVersion reference the version number of new database*/
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
 
             db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME") //deletes old data
@@ -204,8 +208,7 @@ class FoodDetails : AppCompatActivity() {
 
     /**
      * showFoodItemWithSameTag queries the database for food items with similar tags
-     * @param caloriesIndex holds the value for index of calories column in database
-     * @param calories holds the actual value for */
+     *@param tag reference the food tag*/
     fun showFoodItemWithSameTag(tag:String?){
 
         foodResults = foodDB.query(TABLE_NAME, arrayOf("_id", FOODITEMKEY, FOODFATKEY, FOODCALORIESKEY, FOODTAGKEY),
@@ -236,6 +239,9 @@ class FoodDetails : AppCompatActivity() {
         showSummary(tagArray, tag)
     }
 
+/**called to show summary of food items with similar tag name
+ * @param arr reference an ArrayList of type Double
+ * @param text reference food tag name */
     private fun showSummary(arr: ArrayList<Double>, text: String?){
 
         var arrCount = arr.count()
