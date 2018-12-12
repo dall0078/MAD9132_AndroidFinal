@@ -20,77 +20,103 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorLight"/>
 
-        <ProgressBar
-                android:id="@+id/foodSearchProgress"
-                android:visibility="invisible"
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/nav_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_marginTop="40dp"/>
+                android:background="@color/colorLight"/>
 
-        <TextView
-                android:id="@+id/foodName"
+        <android.support.v4.widget.DrawerLayout
+                android:id="@+id/drawer_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/foodSearchProgress"
-                android:text="@string/food_search_name"
-                android:layout_marginTop="20dp"/>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/nav_toolbar">
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-        <TextView
-                android:id="@+id/foodCalories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/foodName"
-                android:text="@string/food_search_calories"/>
+                <ProgressBar
+                        android:id="@+id/foodSearchProgress"
+                        android:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_marginTop="10dp"/>
 
-        <ImageButton
-                android:id="@+id/foodAddBtn"
-                android:layout_width="69dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/food_add"
-                android:layout_below="@+id/foodCalories"
-                android:layout_toRightOf="@+id/foodFat"
-                android:layout_marginTop="-1dp"/>
+                <TextView
+                        android:id="@+id/foodName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/foodSearchProgress"
+                        android:text="@string/food_search_name"
+                        android:layout_marginTop="10dp"/>
 
-        <TextView
-                android:id="@+id/foodFat"
-                android:layout_width="284dp"
-                android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:text="@string/food_search_fat"
-                android:layout_below="@+id/foodCalories"/>
+                <TextView
+                        android:id="@+id/foodCalories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/foodName"
+                        android:text="@string/food_search_calories"/>
 
-        <TextView
-                android:id="@+id/foodFavoriteList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:layout_below="@+id/foodAddBtn"
-                android:text="@string/food_search_favorites_heading"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
+                <ImageButton
+                        android:id="@+id/foodAddBtn"
+                        android:layout_width="69dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/food_add"
+                        android:layout_below="@+id/foodCalories"
+                        android:layout_toRightOf="@+id/foodFat"
+                        android:layout_marginTop="-1dp"/>
 
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:src="@drawable/food_add_tag"
-                android:id="@+id/foodTagEditBtn"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:layout_below="@+id/foodFavoriteList"
-                android:layout_marginRight="-15dp"/>
+                <TextView
+                        android:id="@+id/foodFat"
+                        android:layout_width="284dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:text="@string/food_search_fat"
+                        android:layout_below="@+id/foodCalories"/>
 
-        <ListView
-                android:id="@+id/foodListView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/foodTagEditBtn"
-                android:padding="10dp"/>
+                <TextView
+                        android:id="@+id/foodFavoriteList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:layout_below="@+id/foodAddBtn"
+                        android:text="@string/food_search_favorites_heading"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"/>
+
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="49dp"
+                        android:src="@drawable/food_add_tag"
+                        android:id="@+id/foodTagEditBtn"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_below="@+id/foodFavoriteList"
+                        android:layout_marginRight="-15dp"/>
+
+                <ListView
+                        android:id="@+id/foodListView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/foodTagEditBtn"
+                        android:padding="10dp"/>
+
+            </RelativeLayout>
+
+            <android.support.design.widget.NavigationView
+                    android:id="@+id/navigationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:headerLayout="@layout/nav_header"
+                    android:fitsSystemWindows="true"
+                    android:layout_gravity="start"
+                    app:menu="@menu/nav_menu"/>
+        </android.support.v4.widget.DrawerLayout>
 
     </RelativeLayout>
 

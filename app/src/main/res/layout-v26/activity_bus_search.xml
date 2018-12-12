@@ -2,13 +2,16 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/BusToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <android.support.v4.widget.DrawerLayout
             android:layout_width="match_parent"
@@ -17,31 +20,32 @@
             android:id="@+id/bus_drawer_layout">
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/BusToolbar">
+                        android:layout_below="@id/BusToolbar"
+        >
 
-            <!-- start of change areas -->
-            <!--SearchBar should go first-->
+
             <EditText android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignParentStart="true"
-                      android:layout_toStartOf="@id/BusSearchButton"
+                      android:layout_toLeftOf="@id/BusSearchButton"
                       android:id="@+id/BusSearchBar"
                       android:hint="Search"
                       android:layout_alignParentTop="true"
-                      android:inputType="text" tools:ignore="Autofill,HardcodedText"/>
+                      android:autofillHints="Bust Stop Number"/>
 
             <Button android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="Search"
                     android:id="@+id/BusSearchButton"
-                    tools:ignore="HardcodedText"/>
+
+            />
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/BusSearchBar"
                       android:text="@string/bus_stop_not_found"
-                      android:textSize="30sp"
+                      android:textSize="30dp"
                       android:visibility="invisible"
                       android:id="@+id/BusStopNotFound"
             />

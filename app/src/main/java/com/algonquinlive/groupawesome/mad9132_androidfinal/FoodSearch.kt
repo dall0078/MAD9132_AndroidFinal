@@ -27,6 +27,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
+ * @author Oluwakemi Mafe
  * You can search for food calories and fat content in this activity
  * you can save that in formation into the database to retrieve later
  * you can delete a foodItem from the database and the local foodArray
@@ -34,6 +35,7 @@ import kotlin.collections.ArrayList
  **/
 class FoodSearch : AppCompatActivity() {
 
+    /** favouritesListArray is an array of type Food*/
     var favouritesListArray = ArrayList<Food>()
 
     lateinit var listAdapter: FoodAdapter
@@ -54,18 +56,23 @@ class FoodSearch : AppCompatActivity() {
     var foodSearchProgress = 0
     var searchIsSucessful = false
     var foodToDeleteId : Int? = null
-    var changePosition = false
     var total = 0.00
 
+    /**Food data class is a container used to hold food data
+     * @param id references the id of a food item
+     * @param name references the name of a food item
+     * @param calContent references the calories content of a food item
+     * @param fatContent references the fat content of a food item
+     * @param tag references the tag of a food item*/
     data class Food(var id: Int, var name: String, var calContent: Int, var fatContent: Int, var tag: String?)
 
+    /**called to initialize this activity
+     * @param savedInstanceState references the bundle object to be passed to this activity*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_search)
 
-        var foodSearchToolbar = findViewById<Toolbar>(R.id.foodSearchToolbar)
-        setSupportActionBar(foodSearchToolbar)
-
+        NavigationClickHandler(this)
         foodName = findViewById<TextView>(R.id.foodName)
         foodCalories = findViewById<TextView>(R.id.foodCalories)
         foodFat = findViewById<TextView>(R.id.foodFat)
@@ -77,8 +84,6 @@ class FoodSearch : AppCompatActivity() {
             null, null,
             null, null, null,
             null)
-
-
 
         foodResults.moveToFirst()
         val idIndex = foodResults.getColumnIndex("_id") //get index of id column
@@ -116,6 +121,7 @@ class FoodSearch : AppCompatActivity() {
 
 
         foodAddBtn = findViewById<ImageButton>(R.id.foodAddBtn)
+        foodAddBtn.visibility = View.INVISIBLE
         foodAddBtn.setOnClickListener {
 
             if(searchIsSucessful){
@@ -132,6 +138,8 @@ class FoodSearch : AppCompatActivity() {
                 foodName.text = "Name:"
                 foodCalories.text = "Calories:"
                 foodFat.text = "Fat:"
+
+                foodAddBtn.visibility = View.INVISIBLE
 
                 //write to a database
                 val foodNewRow = ContentValues()
@@ -192,6 +200,9 @@ class FoodSearch : AppCompatActivity() {
         }
 
         val foodTagBtn = findViewById(R.id.foodTagEditBtn) as? ImageButton
+
+        /**
+         * creating an event listener for food tag button*/
         foodTagBtn?.setOnClickListener{
 
             var foodDialogStuff = layoutInflater.inflate(R.layout.food_tag_dialog, null)
@@ -273,9 +284,12 @@ class FoodSearch : AppCompatActivity() {
         listAdapter = FoodAdapter(this)
         listItem?.adapter = listAdapter
 
-        onActivityResult(50, 2, intent)
+        onActivityResult(35, 2, intent)
     }
 
+    /**called to show menu on a page
+     * @param menu this is a container for menu items
+     * @return Boolean*/
     override fun  onCreateOptionsMenu (menu: Menu) : Boolean {
 
         menuInflater.inflate(R.menu.food_tool_bar_menu, menu )
@@ -286,13 +300,24 @@ class FoodSearch : AppCompatActivity() {
 
         foodSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
+            /**called when query text is changed by user
+             * @param newText reference to the value inputted by user
+             * @return Boolean*/
             override fun onQueryTextChange(newText: String): Boolean {
 
+                //resetting the values of these text views
+                foodName.text = "Name:"
+                foodCalories.text = "Calories:"
+                foodFat.text = "Fat:"
+
+                foodAddBtn.visibility = View.INVISIBLE
                 foodSearchInputValue = newText
 
                 return false
             }
 
+            /** called when user submits the query
+             * @param query is the query value to be used for request */
             override fun onQueryTextSubmit(query: String): Boolean {
 
                 //progress bar visible
@@ -309,6 +334,9 @@ class FoodSearch : AppCompatActivity() {
         return true
     }
 
+    /**called when an item in the menu for this activity is selected
+     * @param item reference to each menu items in available in the menu for this activity
+     * @return Boolean */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
@@ -317,42 +345,26 @@ class FoodSearch : AppCompatActivity() {
 
                 var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
 
-                var builder =  AlertDialog.Builder(this)
+                var builder = AlertDialog.Builder(this)
                 builder.setTitle("About Food Analysis")
                 builder.setView(dialogStuff) //insert view into dialog
 
                 // Add the buttons
-                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+                builder.setPositiveButton(R.string.food_help_dialog_done, { dialog, id -> })
 
                 // Create the AlertDialog
                 var dialog = builder.create()
                 dialog.show()
             }
-
-            R.id.item_cbc ->{
-
-                var intent = Intent(this, NewsList::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_movie ->{
-
-                var intent = Intent(this, MovieSearch::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_bus ->{
-
-                var intent = Intent(this, BusSearch::class.java)
-                startActivity(intent)
-            }
-
         }
         return true
     }
 
     inner class FoodQuery : AsyncTask<String, Integer, String>(){
 
+        /**used to perform background computation(in this case make url connection and get data back from the connection made)
+         * @param params is the parameters of asynchronous task initiated in this activity
+         * @return a result of type String at the end async task*/
         override fun doInBackground(vararg params: String?): String {
 
             try{
@@ -410,6 +422,8 @@ class FoodSearch : AppCompatActivity() {
             return "Done"
         }
 
+        /**is invoked on the UI thread after the background computation finishes
+         * @param result is the result of background computation done in fun doInBackground*/
         override fun onPostExecute(result: String?) { //run when thread is done and going away
 
 //            foodSearchProgressBar.setProgress(foodSearchProgress)
@@ -425,12 +439,21 @@ class FoodSearch : AppCompatActivity() {
 
     }
 
+    /**creates a view by converting each object in Food data class to string and places the result into a text view
+     * @param ctx specifies the context of the view created*/
     inner class FoodAdapter(val ctx: Context) : ArrayAdapter<Food>(ctx, 0) {
 
+        /** called to know the number of items in the data set represented by FoodAdapter
+         * @return the size of favouritesListArray*/
         override fun getCount(): Int {
             return favouritesListArray.size
         }
 
+        /**called to get a view that displays data at the specified position tn the favouritesListArray
+         * @param position reference the index of data in favouritesListArray
+         * @param convertView reference the new view created
+         * @param parent reference the parent view which new created view will attach to
+         * @return created View*/
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
             var inflater = LayoutInflater.from(parent.getContext())
             var result: View
@@ -444,11 +467,17 @@ class FoodSearch : AppCompatActivity() {
             return result
         }
 
+        /**called to get data item associated with specified position in favouritesListArray
+         * @param position reference the index of data in favouritesListArray
+         * @return the data at index specified by position in favouritesListArray*/
         override fun getItem(position: Int): Food {
 
             return favouritesListArray.get(position)
         }
 
+        /**called to get row id associated with specified position in favouritesListArray
+         * @param position reference the index of data in favouritesListArray
+         * @return Long*/
         override fun getItemId(position: Int): Long {
             return 0
         }
@@ -464,14 +493,21 @@ class FoodSearch : AppCompatActivity() {
     val FOODCALORIESKEY = "FoodCalories"
     val FOODTAGKEY = "FoodTag"
 
+    /**creates a helper object to create, open, and/or manage a database for food*/
     inner class FoodDatabaseHelper : SQLiteOpenHelper(this@FoodSearch, DATABASE_NAME, null, VERSION_NUM) {
 
+        /**called when the database is created
+         * @param db reference the database created*/
         override fun onCreate(db: SQLiteDatabase) {
 
             db.execSQL("CREATE TABLE $TABLE_NAME ( _id INTEGER PRIMARY KEY AUTOINCREMENT, $FOODITEMKEY TEXT, $FOODFATKEY INTEGER, $FOODCALORIESKEY INTEGER, $FOODTAGKEY TEXT)") //creates table
             Log.i("FoodDatabaseHelper", "Calling onCreate")
         }
 
+        /**called when database needs to be upgraded
+         * @param db reference the database created
+         * @param oldVersion reference the version number of old database
+         * @param newVersion reference the version number of new database*/
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
 
             db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME") //deletes old data
@@ -483,7 +519,8 @@ class FoodSearch : AppCompatActivity() {
 
     }
 
-
+    /**called to delete food item from database and from favouritesListArray
+     * @param id reference the id of food item to be deleted*/
     fun deleteFoodItem(id:Int?) {
 
             foodDB.delete(TABLE_NAME, "_id=$id", null)
@@ -492,17 +529,16 @@ class FoodSearch : AppCompatActivity() {
                 null, null, null,
                 null)
 
-        if(changePosition){
-            favouritesListArray.removeAt(foodItemPosition + 1)
-        }else{
             favouritesListArray.removeAt(foodItemPosition)
-        }
 
+            Log.i("from mobile", "$foodItemPosition")
             Log.i("FoodSearch", favouritesListArray.toString())
             listAdapter.notifyDataSetChanged() //reload the list
 
     }
 
+    /**called to show food items with similar tags
+     * @param tag reference the food tag*/
     fun showFoodItemWithSameTag(tag:String?){
 
         var tagArray = ArrayList<Double>()
@@ -534,6 +570,10 @@ class FoodSearch : AppCompatActivity() {
         showSummary(tagArray, tag)
     }
 
+    /**called when this activity receives an activity result
+     * @param requestCode reference the request code
+     * @param resultCode reference the result code
+     * @param data reference data passed by intent*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         foodToDeleteId = data?.getIntExtra("foodToDelete", 0)
@@ -542,14 +582,14 @@ class FoodSearch : AppCompatActivity() {
 
             if(foodToDeleteId != 0){
 
-                changePosition = true
                 deleteFoodItem(foodToDeleteId)
             }
         }
-
-        changePosition = false
     }
 
+    /**called to show summary of food items with similar tag name
+     * @param arr reference an ArrayList of type Double
+     * @param text reference food tag name */
     private fun showSummary(arr: ArrayList<Double>, text: String?){
 
         var arrCount = arr.count()

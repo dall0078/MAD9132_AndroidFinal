@@ -7,7 +7,7 @@
     <string name="menu_nav_item_news">CBC News</string>
     <string name="menu_nav_item_movie">Movies</string>
     <string name="menu_nav_item_bus">OCTranspo Buses</string>
-    <string name="food_dialog_ok">Ok</string>
+    <string name="food_dialog_ok">OK</string>
     <string name="food_dialog_cancel">Cancel</string>
     <string name="food_search_name">Name:</string>
     <string name="food_search_calories">Calories:</string>
@@ -15,11 +15,16 @@
     <string name="food_help_author">Author: Oluwakemi Mafe</string>
     <string name="food_help_version">Version 1.0.0</string>
     <string name="food_help_instruction_title">How to use Food Analysis Application</string>
-    <string name="food_help_instruction1">1. Click on the Search icon to search for food fat and calories content online.</string>
+    <string name="food_help_instruction1">1. Click on the Search icon to search for food fat and calories content
+        online.
+    </string>
     <string name="food_help_instruction2">2. Click on the Plus icon to add food details to Favorites list.</string>
-    <string name="food_help_instruction3">3. Click on the Tag icon to add a tag for each food in the Favorites list.</string>
+    <string name="food_help_instruction3">3. Click on the Tag icon to add a tag for each food in the Favorites list.
+    </string>
     <string name="food_help_instruction4">4. Click on each food item in the Favorites list to view its details.</string>
-    <string name="food_help_instruction5">5. Click on the Delete button on Food Details Page to delete food item from Favorites list.</string>
+    <string name="food_help_instruction5">5. Click on the Delete button on Food Details Page to delete food item from
+        Favorites list.
+    </string>
     <string name="food_help_instructions6">6. Click on the Cancel button to return to Food Search Page.</string>
     <string name="food_search_favorites_heading">Favorites</string>
     <string name="food_tag_foodName">Which food do you want to tag?</string>
@@ -39,21 +44,56 @@
     <string name="menu_help_item">Help</string>
     <string name="news_help_dialog_title">How To Use the CBC News Reader</string>
     <string name="news_help_dialog_step_1">1. The most recent news will automatically load!</string>
+
     <string name="news_help_dialog_step_2">2. Click on an article to view more details or add it to favourites for later viewing.</string>
     <string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details page.</string>
+
+    <string name="news_help_dialog_step_2">2. Click on an article to view more details or add it to favourites for later
+        viewing.
+    </string>
+    <string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details
+        page.
+    </string>
 
     <!--Movie Strings-->
     <string name="movieHelpTitle">How To Use the Movie Search App</string>
     <string name="movieAppAuthor">Author: Adam Nieuwenhuizen</string>
     <string name="movieAppVersion">Version: 1.0</string>
-    <string name="movieHelpInstruction1">1. Enter a movie title into the search field and press search. This will give you a list of movies based on search criteria. </string>
+    <string name="movieHelpInstruction1">1. Enter a movie title into the search field and press search. This will give
+        you a list of movies based on search criteria.
+    </string>
     <string name="movieHelpInstruction2">2. Click the movie you wish to view the information for.</string>
-    <string name="movieHelpInstruction3">3. From the movie details page, you may choose to save the movie to a Favorites List for later.</string>
+    <string name="movieHelpInstruction3">3. From the movie details page, you may choose to save the movie to a Favorites
+        List for later.
+    </string>
     <string name="movieHelpInstruction4">4. Click on each movie in the Favorites list to view its details.</string>
-    <string name="movieHelpInstruction5">5. Click on the Delete button on the Movie Details Page to delete movie from Favorites list.</string>
-    <string name="movieHelpInstruction6">6. You can navigate to any of the other apps within the Movie Search App. </string>
+    <string name="movieHelpInstruction5">5. Click on the Delete button on the Movie Details Page to delete movie from
+        Favorites list.
+    </string>
+    <string name="movieHelpInstruction6">6. You can navigate to any of the other apps within the Movie Search App.
+    </string>
     <string name="movie_saved_list_title">Favorite Movies</string>
     <string name="movie_help_dialog_done">Done</string>
     <string name="searchBtn">Search</string>
+
+    <string name="bus_activity_name">The Bus Schedule</string>
+    <string name="bus_destination">Bus Destination</string>
+    <string name="bus_latitude">Bus Latitude</string>
+    <string name="bus_longitude">Bus Longitude</string>
+    <string name="bus_gps_speed">Bus GPS Speed</string>
+    <string name="bus_start_time">Bus Start Time</string>
+    <string name="adjusted_schedule_time">Bus Adjusted Schedule Time</string>
+    <string name="bus_add_to_favourites_button">Add To Favourites</string>
+    <string name="bus_stop_not_found">Bus Stop Not Found</string>
+    <string name="bus_help_author">Author: Ernilo Dallagnolo Junior</string>
+    <string name="bus_help_version">Version 0.8.0Beta</string>
+    <string name="bus_help_instruction_title">How to use Food Analysis Application</string>
+    <string name="bus_help_instruction1">1. Click on the Search icon and add your Stop number.
+    </string>
+    <string name="bus_help_instruction2">2. After you added the stop to the list click on it to check new Busses.
+    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

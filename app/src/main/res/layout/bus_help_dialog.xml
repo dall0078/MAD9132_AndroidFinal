@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/busAppAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bus_help_author"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/busAppVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bus_help_version"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/busHelpReading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bus_help_instruction_title"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="15dp"/>
+
+    <TextView
+            android:id="@+id/busHelp1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bus_help_instruction1"
+            android:layout_marginBottom="8dp"/>
+
+    <TextView
+            android:id="@+id/busHelp2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bus_help_instruction2"
+            android:layout_marginBottom="8dp"/>
+
+
+</LinearLayout>
