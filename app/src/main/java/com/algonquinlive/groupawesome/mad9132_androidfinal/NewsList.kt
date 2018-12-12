@@ -93,6 +93,22 @@ class NewsList : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            R.id.foodHelpIcon -> {
+
+                var dialogStuff = layoutInflater.inflate(R.layout.news_help_dialog, null)
+
+                var builder =  AlertDialog.Builder(this)
+                builder.setTitle("About CBC News Reader")
+                builder.setView(dialogStuff) //insert view into dialog
+
+                // Add the buttons
+                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+
+                // Create the AlertDialog
+                var dialog = builder.create()
+                dialog.show()
+            }
+
             R.id.news_menu_saved_article_count -> {
                 countArticles()
             }

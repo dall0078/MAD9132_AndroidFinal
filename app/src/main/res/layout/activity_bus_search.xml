@@ -6,7 +6,7 @@
         android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/BusToolbar"
+            android:id="@+id/nav_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:elevation="4dp"
@@ -16,8 +16,8 @@
     <android.support.v4.widget.DrawerLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/BusToolbar"
-            android:id="@+id/bus_drawer_layout">
+            android:layout_below="@id/nav_toolbar"
+            android:id="@+id/drawer_layout">
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/BusToolbar"
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 app:headerLayout="@layout/nav_header"
-                android:id="@+id/bus_navigation_view"
+                android:id="@+id/navigationView"
                 android:fitsSystemWindows="true"
                 android:layout_gravity="start"
                 app:menu="@menu/nav_menu"

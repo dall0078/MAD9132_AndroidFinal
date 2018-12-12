@@ -260,7 +260,7 @@ class MovieSearch : AppCompatActivity() {
             //connect to the OMDB API with url
 
             //assign value to userQuery through user input search
-            var userQuery = findViewById<EditText>(R.id.movie_search_input).toString()
+            var userQuery = findViewById<EditText>(R.id.movie_search_input).text.toString()
             //creates URL encoded query for search
             var url = URL("http://www.omdbapi.com/?apikey=6c9862c2&r=xml&&t=" + URLEncoder.encode(userQuery, "UTF-8"))
 
@@ -278,11 +278,11 @@ class MovieSearch : AppCompatActivity() {
                 Log.d("Parsing: ", "Event Type: ${xpp.eventType}, Event Name: ${xpp.name}")
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
-                        if (xpp.name == "movie") {
+                        if (xpp.name.equals( "movie")) {
 
                             Log.d("Found movie tag", "Creating Movie Object")
                             this.movie = MovieData(null, null, null, null, null, null, null)
-                        } else if (this.movie != null) {
+
                             when {
 
                                 xpp.name == "title" -> this.movie?.movieTitle = xpp.getAttributeValue(null, "title") //grabs title from OMDB
@@ -303,7 +303,7 @@ class MovieSearch : AppCompatActivity() {
                 XmlPullParser.END_TAG -> {
                     if (xpp.name == "movie") {
                         favoriteMovieListArray.add(this.movie)
-                        this.movie = null
+
                     }
                 }
             }
@@ -320,7 +320,7 @@ class MovieSearch : AppCompatActivity() {
            // movieSearchProgressbar.visibility = View.INVISIBLE // hide progress bar
             movieSearchProgressBar.visibility = View.INVISIBLE
 
-            movie_Title.text = "Title: ${movieTitle}"
+            movie_Title.text = "Title: " + this.movie?.movieTitle
             movie_ReleaseDate.text = "Release:  ${movieReleaseDate}"
             movie_Actors.text = "Starring:  ${movieActors}"
             movie_Plot.text = "Plot Summary: ${moviePlot} "
