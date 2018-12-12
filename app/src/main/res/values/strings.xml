@@ -48,12 +48,12 @@
     <string name="news_help_dialog_step_2">2. Click on an article to view more details or add it to favourites for later viewing.</string>
     <string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details page.</string>
 
-    <string name="news_help_dialog_step_2">2. Click on an article to view more details or add it to favourites for later
-        viewing.
-    </string>
-    <string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details
-        page.
-    </string>
+    <!--<string name="news_help_dialog_step_2">2. Click on an article to view more details or add it to favourites for later-->
+        <!--viewing.-->
+    <!--</string>-->
+    <!--&lt;!&ndash;<string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details&ndash;&gt;-->
+        <!--&lt;!&ndash;page.&ndash;&gt;-->
+    <!--</string>-->
 
     <!--Movie Strings-->
     <string name="movieHelpTitle">How To Use the Movie Search App</string>
