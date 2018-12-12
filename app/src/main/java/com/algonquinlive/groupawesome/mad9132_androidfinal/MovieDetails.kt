@@ -22,6 +22,8 @@ import android.provider.BaseColumns
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.TextView
 
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_movie_details.*
@@ -31,9 +33,10 @@ import kotlinx.android.synthetic.main.activity_start.*
 class MovieDetails : AppCompatActivity() {
 
 
+    lateinit var movieSnackbarMessage:String
     lateinit var db: SQLiteDatabase
     lateinit var dbHelper: MovieDatabaseHelper
-    lateinit var results: Cursor
+    //lateinit var results: Cursor
 
     var receivedMovie = MovieSavedList.FavoriteMovies(null, null, null, null, null, null, null)
 
@@ -42,72 +45,59 @@ class MovieDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
 
+
 //        Set Toolbar
+      //  NavigationClickHandler(this).initializePage()
         val toolbar = nav_toolbar
         setSupportActionBar(toolbar)
 
-//        Add to favs button assignment
-        val addFavButton = movie_detail_AddButton
+
 
 
         dbHelper = MovieDatabaseHelper()
         db = dbHelper.writableDatabase
 
-//        Create click listener for addFavButton to store selected movie.
-        addFavButton.setOnClickListener {
-            val movieValues = ContentValues().apply {
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_TITLE, receivedMovie.movieTitle)
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_RELEASE, receivedMovie.movieReleaseDate)
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_RATING, receivedMovie.movieRating)
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_RUNTIME, receivedMovie.movieRuntime)
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_ACTORS, receivedMovie.movieActors)
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_PLOT, receivedMovie.moviePlot)
-                put(MovieSavedList.FavoriteMovieContract.FavMovie.COLUMN_NAME_POSTER, receivedMovie.moviePosterUrl)
-            }
+//Cancel button login to return to previous activity
+        var movieDetailsCancelBtn = findViewById<Button>(R.id.movieDetailsCancel)
+        movieDetailsCancelBtn.setOnClickListener {
 
-            db.insert(MovieSavedList.FavoriteMovieContract.FavMovie.TABLE_NAME, null, movieValues)
-
-//            Create toast for user feedback
-            Toast.makeText(this@MovieDetails, "Added Movie to list of Favourites", Toast.LENGTH_SHORT)
-                .show()
+            finish()
         }
-//        Create click listener for Cancel button
-        movieDetailsCancel.setOnClickListener {
-//            TODO: CANCEL CLICK LISTENER
-        }
-
-        onActivityResult(50,2,intent)
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
 
-        receivedMovie.movieTitle = data?.getStringExtra("title")
-        receivedMovie.movieReleaseDate = data?.getStringExtra("release")
-        receivedMovie.movieRating = data?.getStringExtra("rated")
-        receivedMovie.movieRuntime = data?.getStringExtra("runtime")
-        receivedMovie.movieActors = data?.getStringExtra("actors")
-        receivedMovie.moviePlot = data?.getStringExtra("plot")
-        receivedMovie.moviePosterUrl = data?.getStringExtra("poster")
+        val movieTitle = data?.getStringExtra("title")
+        val movieReleaseDate = data?.getStringExtra("release")
+        val movieRating = data?.getStringExtra("rated")
+        val movieRuntime = data?.getStringExtra("runtime")
+        val movieActors = data?.getStringExtra("actors")
+        val moviePlot = data?.getStringExtra("plot")
+        //val moviePosterUrl = data?.getStringExtra("poster")
 
 
-        val movieTitleView = movieDetailsTitle
-        val movieReleaseDateView = movieDetailsRelease
-        val movieRatingView = movieDetailsRating
-        val movieRuntimeView = movieDetailsRuntime
-        val movieActorsView = movieDetailsStarring
-        val moviePlotView = movieDetailsDescription
+        val movieTitleView = findViewById<TextView>(R.id.movieDetailsTitle)
+        val movieReleaseDateView = findViewById<TextView>(R.id.movie_ReleaseDate)
+        val movieRatingView = findViewById<TextView>(R.id.movie_Rating)
+        val movieRuntimeView = findViewById<TextView>(R.id.movie_Runtime)
+        val movieActorsView = findViewById<TextView>(R.id.movie_Actors)
+        val moviePlotView = findViewById<TextView>(R.id.movie_Plot)
 //        TODO: Need poster
         //need poster
 
-        movieTitleView.text = receivedMovie.movieTitle
-        movieReleaseDateView.text = receivedMovie.movieReleaseDate
-        movieRatingView.text = receivedMovie.movieRating
-        movieRuntimeView.text = receivedMovie.movieRuntime
-        movieActorsView.text = receivedMovie.movieActors
-        moviePlotView.text = receivedMovie.moviePlot
+        movieTitleView.text = movieTitle.toString()
+        movieReleaseDateView.text = movieReleaseDate.toString()
+        movieRatingView.text = movieRating.toString()
+        movieRuntimeView.text = movieRuntime.toString()
+        movieActorsView.text = movieActors.toString()
+        moviePlotView.text = moviePlot.toString()
         //need poster
+
+
+//        Snackbar assignment
+        movieSnackbarMessage = movieTitle.toString()
 
     }
 
@@ -186,16 +176,6 @@ object FavoriteMovieContract {
     }
 }
 
-    private val SQL_CREATE_ENTRIES =
-        "CREATE TABLE ${FavoriteMovieContract.FavMovie.TABLE_NAME} (" +
-                "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_TITLE} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_RELEASE} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_RATING} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_RUNTIME} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_ACTORS} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_PLOT} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_POSTER} TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${FavoriteMovieContract.FavMovie.TABLE_NAME}"
 
@@ -203,8 +183,9 @@ object FavoriteMovieContract {
 
 
     inner class MovieDatabaseHelper : SQLiteOpenHelper(this@MovieDetails, DATABASE_NAME, null, VERSION_NUM) {
+
         override fun onCreate(db: SQLiteDatabase) {
-            db.execSQL(SQL_CREATE_ENTRIES) //create the table
+           // db.execSQL(SQL_CREATE_ENTRIES) //create the table
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

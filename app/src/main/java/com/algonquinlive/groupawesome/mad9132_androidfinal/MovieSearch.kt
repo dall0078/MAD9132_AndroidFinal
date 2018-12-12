@@ -46,9 +46,14 @@ class MovieSearch : AppCompatActivity() {
 //----------- Declare lateinit Variables -------------//
 
 //    TODO: Clean this up, causing uninitialized errors
-    lateinit var listItem: ListView
-    //lateinit var listAdapter: MovieAdapter
-    lateinit var movieTitle: TextView //textview for movie Title
+    lateinit var movieTitle: TextView//textview for movie Title
+    lateinit var movieReleaseDate: TextView
+    lateinit var movieRating: TextView
+    lateinit var movieRuntime: TextView
+    lateinit var movieActors: TextView
+    lateinit var moviePlot: TextView
+    lateinit var userQuery: String
+
 
 
 
@@ -65,8 +70,6 @@ class MovieSearch : AppCompatActivity() {
                          var moviePosterUrl: String?)
 
 
-//    progress bar
-//    lateinit var movieSearchProgressBar: ProgressBar
 
 //    database
     lateinit var movieDB: SQLiteDatabase
@@ -83,6 +86,7 @@ class MovieSearch : AppCompatActivity() {
         var movieSearchProgressBar: ProgressBar = findViewById(R.id.movieSearchProgressBar)
         //movieSearchProgressBar = 0
         movieSearchProgressBar.visibility = View.VISIBLE
+        movieTitle = findViewById(R.id.movie_search_input)
 
 
 
@@ -105,22 +109,50 @@ class MovieSearch : AppCompatActivity() {
         //NavigationClickHandler(this).initializePage()
 
 
-            listItem = findViewById(R.id.movie_search_listView)
 
+            movieTitle = findViewById(R.id.movie_Title)
+            movieReleaseDate = findViewById(R.id.movie_ReleaseDate)
+            movieRating = findViewById(R.id.movie_Rating)
+            movieRuntime = findViewById(R.id.movie_Runtime)
+            movieActors = findViewById(R.id.movie_Actors)
+            moviePlot = findViewById(R.id.movie_Plot)
+
+
+//        TODO: DELETE THIS
 //        Send selected movie details to MovieDetails activity
-            listItem.setOnItemClickListener {_, _, position, _ ->
+//            addMovieButton.setOnItemClickListener {_, _, position, _ ->
+//
+//            val intent = Intent(this, MovieDetails::class.java)
+//
+//            //movie data to be sent
+//            intent.putExtra("title",favoriteMovieListArray[position]?.movieTitle)
+//            intent.putExtra("release",favoriteMovieListArray[position]?.movieReleaseDate)
+//            intent.putExtra("rating",favoriteMovieListArray[position]?.movieRating)
+//            intent.putExtra("runtime",favoriteMovieListArray[position]?.movieRuntime)
+//            intent.putExtra("actors",favoriteMovieListArray[position]?.movieActors)
+//            intent.putExtra("plot",favoriteMovieListArray[position]?.moviePlot)
+//
+//
+//            startActivity(intent)
+//    }
+
+
+//        TODO: Finish this add movie intent
+        //        Send selected movie details to MovieDetails activity
+            addMovieButton.setOnClickListener {
 
             val intent = Intent(this, MovieDetails::class.java)
-
-            //movie data to be sent
-            intent.putExtra("title",favoriteMovieListArray[position]?.movieTitle)
-            intent.putExtra("release",favoriteMovieListArray[position]?.movieReleaseDate)
-            intent.putExtra("rating",favoriteMovieListArray[position]?.movieRating)
-            intent.putExtra("runtime",favoriteMovieListArray[position]?.movieRuntime)
-            intent.putExtra("actors",favoriteMovieListArray[position]?.movieActors)
-            intent.putExtra("plot",favoriteMovieListArray[position]?.moviePlot)
-
-
+//
+//            //movie data to be sent
+//            intent.putExtra("title",favoriteMovieListArray)
+//            intent.putExtra("release",favoriteMovieListArray[position]?.movieReleaseDate)
+//            intent.putExtra("rating",favoriteMovieListArray[position]?.movieRating)
+//            intent.putExtra("runtime",favoriteMovieListArray[position]?.movieRuntime)
+//            intent.putExtra("actors",favoriteMovieListArray[position]?.movieActors)
+//            intent.putExtra("plot",favoriteMovieListArray[position]?.moviePlot)
+                val addConfirm = "Added movie to Favorites"
+                Toast.makeText(this, addConfirm, Toast.LENGTH_SHORT).show()
+//
             startActivity(intent)
     }
 
@@ -140,7 +172,7 @@ class MovieSearch : AppCompatActivity() {
         myQuery.execute()
 
         movieAdapter = MovieAdapter(this)
-        listItem.adapter = movieAdapter
+        //listItem.adapter = movieAdapter
 
 
 
@@ -210,7 +242,7 @@ class MovieSearch : AppCompatActivity() {
             result = inflater.inflate(R.layout.activity_movie_search, parent, false)
 
             //assign values here
-
+           // movieTitle?.text = movie.name
 
 
             return result
@@ -227,6 +259,15 @@ class MovieSearch : AppCompatActivity() {
 //    XML PULL PARSER HERE
 
     inner class MovieQuery : AsyncTask<String, Integer, String>() {
+
+        var movieTitle: String? = null
+        var movieReleaseDate: String? = null
+        var movieRating: String? = null
+        var movieRuntime: String? = null
+        var movieActors: String? = null
+        var moviePlot: String? = null
+
+
         var movie: MovieData? = null
         var movieSearchProgress = 0
 
@@ -237,17 +278,17 @@ class MovieSearch : AppCompatActivity() {
             //connect to the OMDB API with url
 
             //assign value to userQuery through user input search
-            val userQuery = findViewById<EditText>(R.id.movie_search_input).toString()
+            var userQuery = findViewById<EditText>(R.id.movie_search_input).toString()
             //creates URL encoded query for search
-            val url = URL("http://www.omdbapi.com/?apikey=6c9862c2&r=xml&&t=" + URLEncoder.encode(userQuery, "UTF-8"))
+            var url = URL("http://www.omdbapi.com/?apikey=6c9862c2&r=xml&&t=" + URLEncoder.encode(userQuery, "UTF-8"))
 
-            val connection = url.openConnection() as HttpURLConnection
-            val response = connection.inputStream
+            var connection = url.openConnection() as HttpURLConnection
+            var response = connection.inputStream
 
 
-            val factory = XmlPullParserFactory.newInstance()
+            var factory = XmlPullParserFactory.newInstance()
             factory.isNamespaceAware = false
-            val xpp = factory.newPullParser()
+            var xpp = factory.newPullParser()
             xpp.setInput(response, "UTF-8")
             var eventType = xpp.eventType
 
@@ -256,7 +297,7 @@ class MovieSearch : AppCompatActivity() {
                 when (eventType) {
                     XmlPullParser.START_TAG -> {
                         if (xpp.name == "movie") {
-                            movieSearchProgress += 100
+
                             Log.d("Found movie tag", "Creating Movie Object")
                             this.movie = MovieData(null, null, null, null, null, null, null)
                         } else if (this.movie != null) {
@@ -268,10 +309,10 @@ class MovieSearch : AppCompatActivity() {
                                 xpp.name == "runtime" -> this.movie?.movieRuntime = xpp.nextText() //grabs runtime from OMDB
                                 xpp.name == "actors" -> this.movie?.movieActors = xpp.nextText() //grabs actors from OMDB
                                 xpp.name == "plot" -> this.movie?.moviePlot = xpp.nextText() //grabs plot from OMDB
-                                xpp.name == "poster" -> this.movie?.moviePosterUrl = xpp.nextText() //grabs posterurl from OMDB
+                                //xpp.name == "poster" -> this.movie?.moviePosterUrl = xpp.nextText() //grabs posterurl from OMDB
 
                             }
-
+                            movieSearchProgress += 100
                         Log.d("Added Fields: ", "${this.movie?.movieTitle}")
                     }
                     publishProgress()
@@ -280,7 +321,7 @@ class MovieSearch : AppCompatActivity() {
                 XmlPullParser.END_TAG -> {
                     if (xpp.name == "movie") {
                         favoriteMovieListArray.add(this.movie)
-                        this.movie = null
+                        //this.movie = null
                     }
                 }
             }
@@ -298,12 +339,22 @@ class MovieSearch : AppCompatActivity() {
             movieSearchProgressBar.visibility = View.INVISIBLE
 
 
+
+
+
         }
 
         override fun onProgressUpdate(vararg values: Integer?) {
             super.onProgressUpdate(*values)
             movieSearchProgressBar.setProgress((movieSearchProgress))
             movieSearchProgressBar.visibility = View.VISIBLE
+
+            movie_Title.text = "Title: $movieTitle"
+            movie_ReleaseDate.text = "Release: $movieReleaseDate"
+            movie_Actors.text = "Starring: $movieActors"
+            movie_Plot.text = "Plot Summary: $moviePlot"
+            movie_Rating.text = "Rating: $movieRating"
+            movie_Runtime.text = "Runtime: $movieRuntime"
 
         }
 
