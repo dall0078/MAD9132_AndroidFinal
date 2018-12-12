@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_movie_saved_list.*
@@ -42,13 +43,12 @@ class MovieSavedList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_saved_list)
 
-        //setup toolbar
+        //        Toolbar
+        var movieSavedListToolbar = findViewById<Toolbar>(R.id.movie_saved_list_toolbar)
+        setSupportActionBar(movieSavedListToolbar)
 
-        val toolBar = nav_toolbar
-        setSupportActionBar(toolBar)
 
 
-        NavigationClickHandler(this)
 
 
 
@@ -106,7 +106,7 @@ class MovieSavedList : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.news_list_tool_bar_menu, menu)
+        menuInflater.inflate(R.menu.movie_list_tool_bar_menu, menu)
         return true
     }
 
@@ -114,8 +114,8 @@ class MovieSavedList : AppCompatActivity() {
 
         when(item.itemId){
 
-            R.id.favourite_news_toolbar_menu_button -> {
-                var intent = Intent(this, FavouriteArticles::class.java)
+            R.id.favourite_movies_toolbar_menu_button -> {
+                var intent = Intent(this, FoodSearch::class.java)
                 startActivity(intent)
             }
 
@@ -218,8 +218,8 @@ class MovieSavedList : AppCompatActivity() {
                 "${FavoriteMovieContract.FavMovie.COLUMN_NAME_RATING} TEXT," +
                 "${FavoriteMovieContract.FavMovie.COLUMN_NAME_RUNTIME} TEXT," +
                 "${FavoriteMovieContract.FavMovie.COLUMN_NAME_ACTORS} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_PLOT} TEXT," +
-                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_POSTER} TEXT)"
+                "${FavoriteMovieContract.FavMovie.COLUMN_NAME_PLOT} TEXT)"
+               // "${FavoriteMovieContract.FavMovie.COLUMN_NAME_POSTER} TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${FavoriteMovieContract.FavMovie.TABLE_NAME}"
 

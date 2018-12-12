@@ -12,7 +12,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="42dp"
-
+            android:background="?attr/colorPrimary"
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
             android:id="@+id/movieSearchToolbar"
@@ -22,17 +22,7 @@
             android:layout_marginStart="0dp"/>
 
 
-    <!--Add Movie Button-->
-    <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/addMovieButton"
-            android:src="@drawable/addmovie"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/movieName"
-            android:layout_marginTop="0dp"/>
-    <!---->
+    <!--Add Movie Button and TextViews-->
     <EditText
             android:layout_width="221dp"
             android:layout_height="wrap_content"
@@ -79,12 +69,71 @@
             android:layout_alignParentBottom="true"
             android:id="@+id/moviePoster"
             android:layout_marginBottom="114dp" android:layout_marginStart="-248dp"/>
-    <ListView
-            android:layout_width="317dp"
-            android:layout_height="346dp"
-            android:layout_marginBottom="38dp"
-            android:layout_alignBottom="@+id/movieSearchProgressBar" android:layout_marginTop="45dp"
-            android:layout_below="@+id/movie_search_input" android:layout_alignParentEnd="true"
-            android:layout_marginEnd="36dp" android:layout_alignParentStart="true" android:layout_marginStart="31dp"
-            android:id="@+id/movie_search_listView"/>
+    <TextView
+            android:text=""
+
+            android:layout_width="268dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:id="@+id/movie_Title"
+            android:layout_marginTop="155dp"
+            android:layout_alignStart="@+id/movie_search_input"
+            android:layout_marginStart="2dp"/>
+    <TextView
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+
+            android:id="@+id/movie_ReleaseDate"
+            android:layout_marginTop="297dp"
+            android:layout_marginEnd="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="28dp"/>
+    <TextView
+            android:layout_width="268dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/movie_Rating"
+            android:layout_alignStart="@+id/movie_search_input"
+            android:layout_marginBottom="362dp"
+            android:layout_marginStart="0dp"/>
+    <TextView
+            android:layout_width="271dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/movie_Runtime"
+            android:layout_alignStart="@+id/movie_search_input"
+            android:layout_marginBottom="327dp"
+            android:layout_marginStart="-1dp"/>
+    <TextView
+            android:layout_width="271dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/movie_Actors"
+            android:layout_alignStart="@+id/movie_search_input"
+            android:layout_marginBottom="292dp"
+            android:layout_marginStart="-1dp"/>
+    <TextView
+            android:layout_width="271dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/movie_Plot"
+            android:layout_alignStart="@+id/movie_search_input"
+            android:layout_marginBottom="215dp"
+            android:layout_marginStart="1dp"/>
+    <Button
+            android:text="Add Movie To Favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_alignEnd="@+id/searchForMovie"
+            android:id="@+id/addMovieButton"
+            android:layout_marginBottom="32dp" android:layout_marginEnd="95dp"
+            android:layout_above="@+id/show_saved_movies_button"/>
+    <Button
+            android:text="Show Saved Movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_alignParentStart="true"
+            android:layout_marginStart="92dp"
+            android:id="@+id/show_saved_movies_button"
+            android:layout_marginBottom="30dp" android:layout_above="@+id/movieSearchProgressBar"
+            android:layout_alignParentEnd="true" android:layout_marginEnd="125dp"/>
 </RelativeLayout>

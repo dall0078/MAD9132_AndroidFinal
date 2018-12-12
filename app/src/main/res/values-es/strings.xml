@@ -42,6 +42,7 @@
     <string name="food_details_texthint_tagName">Nombre de etiqueta de comida</string>
     <string name="food_dialog_title">Añadir etiqueta</string>
     <string name="food_help_dialog_done">Hecho</string>
+
     <!--Movie Strings Spanish-->
     <!--TODO: Translate to spanish-->
     <string name="movieHelpTitle">How To Use the CBC News Reader</string>
@@ -54,7 +55,9 @@
     <string name="movieHelpInstruction5">5. Click on the Delete button on the Movie Details Page to delete movie from Favorites list.</string>
     <string name="movieHelpInstruction6">6. You can navigate to any of the other apps within the Movie Search App. </string>
     <string name="movie_saved_list_title">Favorite Movies</string>
+    <string name="movie_help_dialog_done">Done</string>
     <string name="searchBtn">Search</string>
+
     <string name="bus_activity_name">The Bus Schedule</string>
     <string name="bus_destination">Bus Destination</string>
     <string name="bus_latitude">Bus Latitude</string>
@@ -72,4 +75,5 @@
     <string name="bus_help_instruction2">2. After you added the stop to the list click on it to check new Busses.
     </string>
     <string name="hello_blank_fragment">Hello blank fragment</string>resources>
+
 </resources>
