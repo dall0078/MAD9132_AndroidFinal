@@ -7,43 +7,25 @@
             android:icon="@drawable/icons8_christmas_star_filled_50"
             app:showAsAction="never"/>
 
-    <item
-            android:id="@+id/item_cbc"
-            android:title="@string/menu_nav_item_news"
-            android:icon="@drawable/news"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/item_movie"
-            android:title="@string/menu_nav_item_movie"
-            android:icon="@drawable/movie"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/item_bus"
-            android:title="@string/menu_nav_item_bus"
-            android:icon="@drawable/bus"
-            app:showAsAction="never"/>
-
     <item android:id="@+id/foodHelpIcon"
           android:title="@string/menu_help_item"
           android:icon="@drawable/help"
           android:orderInCategory="100"
-          app:showAsAction="never" />
+          app:showAsAction="never"/>
 
     <item android:id="@+id/news_menu_saved_article_count"
           android:title="Article Count"
-          app:showAsAction="never" />
+          app:showAsAction="never"/>
 
     <item android:id="@+id/news_menu_saved_article_most_words"
           android:title="Highest Word Count"
-          app:showAsAction="never" />
+          app:showAsAction="never"/>
 
     <item android:id="@+id/news_menu_saved_article_least_words"
           android:title="Lowest Word Count"
-          app:showAsAction="never" />
+          app:showAsAction="never"/>
 
     <item android:id="@+id/news_menu_saved_article_average_words"
           android:title="Average Word Count"
-          app:showAsAction="never" />
+          app:showAsAction="never"/>
 </menu>

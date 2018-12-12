@@ -17,6 +17,18 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_favourite_articles.*
 import kotlinx.android.synthetic.main.news_list_item.view.*
 
+/**
+ * Favourite Article List Class
+ * @author Jordan Willis
+ * This class is designed to get an array of articles from the SQLite database that contains the
+ * user's favourite articles.
+ * @param favouritesAdapter The adapter that will connect the array returned by the database query to the ListView in the layout
+ * @param favouriteArticlesArray Will contain the returned array from the database query
+ * @param FavouriteStory The data class object that contains all the data related to a single article
+ * @param DATABASE_NAME The name of the database for storing the favourite articles
+ * @param VERSION_NUM The version of the database used for storing favourite articles
+ * */
+
 class FavouriteArticles : AppCompatActivity() {
 
     lateinit var favouritesAdapter: FavouritesAdapter
@@ -137,27 +149,35 @@ class FavouriteArticles : AppCompatActivity() {
             }
 
             R.id.news_menu_saved_article_least_words -> {
-                averageWords()
+                minWords()
             }
 
             R.id.news_menu_saved_article_average_words -> {
-                minWords()
+                averageWords()
             }
         }
         return true
     }
 
+    /**
+     * Method used to count the total articles in the favourites array
+     * @return The total number of articles in the favouriteStoriesArray
+     */
     fun countArticles()
     {
 
         var articleCount = favouriteArticlesArray.size
         var articleMessage = "Number of articles saved: $articleCount"
         Snackbar.make(activity_favourite_articles_favouritesListView, articleMessage, Snackbar.LENGTH_LONG)
-            .setAction("Stats", {
+            .setAction("Info", {
                     e -> Toast.makeText(this@FavouriteArticles, "This is the number of articles saved", Toast.LENGTH_LONG).show()
             })
             .show()
     }
+    /**
+     * Method used to find the article with the most words and return the count of the words
+     * @return The total number of words in the article with the highest word count
+     */
     fun maxWords()
     {
         var maxWords = 0
@@ -177,7 +197,10 @@ class FavouriteArticles : AppCompatActivity() {
             })
             .show()
     }
-
+    /**
+     * Method used to find the article with the least words and return the count of the words
+     * @return The total number of words in the article with the lowest word count
+     */
     fun minWords()
     {
         var minWords = 0

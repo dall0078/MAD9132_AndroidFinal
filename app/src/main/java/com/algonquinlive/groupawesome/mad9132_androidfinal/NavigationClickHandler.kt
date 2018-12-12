@@ -13,8 +13,7 @@ import android.view.MenuItem
 class NavigationClickHandler(val page : AppCompatActivity): NavigationView.OnNavigationItemSelectedListener
 {
 
-    fun initializePage()
-    {
+    init{
         var nav_toolbar = page.findViewById<Toolbar>(R.id.nav_toolbar)
         page.setSupportActionBar(nav_toolbar)
 
