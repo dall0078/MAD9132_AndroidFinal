@@ -16,43 +16,54 @@ import java.util.*
 import kotlin.concurrent.schedule
 
     /**
-    * FoodDetailsFragment is a kotlin file that inherits from Fragment()
-    * @param foodSnackbarMessage is used to hold the food name to be used for Toast in Snackbar
-    * @param dataPassed is a bundle that holds the all food data passed from FoodSearch activity
-    * @param foodNameFragment holds the value for food name gotten from datapassed bundle
-     * @param foodCaloriesFragment holds the value for food calories gotten from datapassed bundle
-     * @param foodFatFragment holds the value for food fat gotten from datapassed bundle
-     * @param foodTagFragment holds the value for food tag gotten from datapassed bundle
-     * @param id holds the value for food id gotten from datapassed bundle
-     * @param foodFragmentScreen is a view that holds the inflated fragment layout
-     * @param foodName references a textView in the inflated layout
-     * @param foodCalories references a textView in the inflated layout
-     * @param foodFat references a textView in the inflated layout
-     * @param foodtag references a Button in the inflated layout
-     * */
-
+     * @author Oluwakemi Mafe
+     * FoodDetailsFragment is a kotlin file that inherits from Fragment()*/
 class FoodDetailsFragment : Fragment() {
-    lateinit var foodSnackbarMessage:String
-    lateinit var parentDocument: FoodSearch
 
-//        var amITablet = false
+        /**foodSnackbarMessage is used to hold the food name to be used for Toast in Snackbar*/
+        lateinit var foodSnackbarMessage:String
 
+        /**parentDocument is a reference to the FoodSearch activity*/
+        lateinit var parentDocument: FoodSearch
+
+        /** called to create an initial instance of this fragment
+         * @param inflater is used to inflate layout for food details activity
+         * @param container is used
+         * @param savedInstanceState references the bundle object to be passed to the inflated activity
+         * @return created View*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // Inflate the layout for this fragment
+            /**dataPassed is a bundle that holds the all food data passed from FoodSearch activity*/
         var dataPassed = arguments //get data back
+
+            /**foodNameFragment holds the value for food name gotten from datapassed bundle*/
         var foodNameFragment = dataPassed?.getString("Food-Name")
+
+            /**foodCaloriesFragment holds the value for food calories gotten from datapassed bundle*/
         var foodCaloriesFragment = dataPassed?.getInt("Food-Calories")
+
+            /**foodFatFragment holds the value for food fat gotten from datapassed bundle*/
         var foodFatFragment = dataPassed?.getInt("Food-Fat")
+
+            /**foodTagFragment holds the value for food tag gotten from datapassed bundle*/
         var foodTagFragment = dataPassed?.getString("Food-Tag")
+            /**id holds the value for food id gotten from datapassed bundle*/
         var id = dataPassed?.getInt("ID")
 
-
+        /**foodFragmentScreen is a view that holds the inflated fragment layout*/
         var foodFragmentScreen = inflater?.inflate(R.layout.activity_food_details, container, false)
 
+            /**foodName references a textView in the inflated layout*/
         var foodName = foodFragmentScreen.findViewById<TextView>(R.id.foodNameDetails)
+
+           /**foodCalories references a textView in the inflated layout*/
         var foodCalories = foodFragmentScreen.findViewById<TextView>(R.id.foodCaloriesContent)
+
+            /**foodFat references a textView in the inflated layout*/
         var foodFat = foodFragmentScreen.findViewById<TextView>(R.id.foodFatContent)
+
+            /**foodtag references a Button in the inflated layout*/
         var foodTag = foodFragmentScreen.findViewById<Button>(R.id.foodTagDetails)
 
         foodSnackbarMessage = foodNameFragment.toString()
@@ -78,7 +89,7 @@ class FoodDetailsFragment : Fragment() {
         }
 
         /**
-         * @param foodCancelBtn references cancel button in the inflated layout
+         * foodCancelBtn references cancel button in the inflated layout
          * click on foodCancelBtn to make the inflated layout invisible
          * */
         var foodCancelBtn = foodFragmentScreen.findViewById<Button>(R.id.foodCancelBtn)
@@ -108,7 +119,7 @@ class FoodDetailsFragment : Fragment() {
 
         /**
          * setting the context of this view as FoodSearch Activity
-         * */
+         * @param context to specify an activity */
         override fun onAttach(context: Activity?) {
             super.onAttach(context)
 

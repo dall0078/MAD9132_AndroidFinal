@@ -9,24 +9,6 @@
             app:showAsAction="always|collapseActionView"
             android:title="Search" />
 
-    <item
-            android:id="@+id/item_cbc"
-            android:title="@string/menu_nav_item_news"
-            android:icon="@drawable/news"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/item_movie"
-            android:title="@string/menu_nav_item_movie"
-            android:icon="@drawable/movie"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/item_bus"
-            android:title="@string/menu_nav_item_bus"
-            android:icon="@drawable/bus"
-            app:showAsAction="never"/>
-
     <item android:id="@+id/foodHelpIcon"
           android:title="help"
           android:icon="@drawable/help"
