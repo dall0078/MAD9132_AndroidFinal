@@ -19,7 +19,9 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -46,10 +48,9 @@ class MovieDetails : AppCompatActivity() {
         setContentView(R.layout.activity_movie_details)
 
 
-//        Set Toolbar
-      //  NavigationClickHandler(this).initializePage()
-        val toolbar = nav_toolbar
-        setSupportActionBar(toolbar)
+//        Toolbar
+        var movieSearchToolbar = findViewById<Toolbar>(R.id.movie_details_toolbar)
+        setSupportActionBar(movieSearchToolbar)
 
 
 
@@ -63,6 +64,19 @@ class MovieDetails : AppCompatActivity() {
 
             finish()
         }
+
+
+        var movieDetailsDelButton = findViewById<Button>(R.id.delete_movie_button)
+        movieDetailsDelButton.setOnClickListener {
+            Snackbar.make(movieDetailsDelButton, "Are you sure you wish to delete this movie?", Snackbar.LENGTH_LONG).setAction("Yes", {
+                e -> Toast.makeText(this@MovieDetails, "Deleted Successfully", Toast.LENGTH_LONG).show()
+                var intent = Intent(this, MovieSearch::class.java)
+                //var id = movieId!!
+                //intent.putExtra("movieToDelete", id)
+                startActivity(intent)
+            }).show()
+        }
+        onActivityResult(35,2, intent)
 
     }
 
@@ -87,13 +101,22 @@ class MovieDetails : AppCompatActivity() {
 //        TODO: Need poster
         //need poster
 
-        movieTitleView.text = movieTitle.toString()
-        movieReleaseDateView.text = movieReleaseDate.toString()
-        movieRatingView.text = movieRating.toString()
-        movieRuntimeView.text = movieRuntime.toString()
-        movieActorsView.text = movieActors.toString()
-        moviePlotView.text = moviePlot.toString()
+        movieTitleView?.setText(movieTitle)
+        movieReleaseDateView?.setText(movieReleaseDate)
+        movieRatingView?.setText(movieRating)
+        movieRuntimeView?.setText(movieRuntime)
+        movieActorsView?.setText(movieActors)
+        moviePlotView?.setText(moviePlot)
+
+//        movieTitleView.text = movieTitle.toString()
+//        movieReleaseDateView.text = movieReleaseDate.toString()
+//        movieRatingView.text = movieRating.toString()
+//        movieRuntimeView.text = movieRuntime.toString()
+//        movieActorsView.text = movieActors.toString()
+//        moviePlotView.text = moviePlot.toString()
         //need poster
+
+
 
 
 //        Snackbar assignment
@@ -162,23 +185,6 @@ class MovieDetails : AppCompatActivity() {
     val VERSION_NUM = 1
 
 //    Anon object
-object FavoriteMovieContract {
-
-    object FavMovie : BaseColumns {
-        const val TABLE_NAME = "Movies"
-        const val COLUMN_NAME_TITLE = "title"
-        const val COLUMN_NAME_RELEASE = "release"
-        const val COLUMN_NAME_RATING = "rating"
-        const val COLUMN_NAME_RUNTIME = "runtime"
-        const val COLUMN_NAME_ACTORS = "actors"
-        const val COLUMN_NAME_PLOT = "plot"
-        const val COLUMN_NAME_POSTER = "poster"
-    }
-}
-
-
-    private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${FavoriteMovieContract.FavMovie.TABLE_NAME}"
-
 
 
 
@@ -189,7 +195,7 @@ object FavoriteMovieContract {
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-            db.execSQL(SQL_DELETE_ENTRIES) //deletes your old data
+           // db.execSQL(SQL_DELETE_ENTRIES) //deletes your old data
             //create new table
             onCreate(db)
         }

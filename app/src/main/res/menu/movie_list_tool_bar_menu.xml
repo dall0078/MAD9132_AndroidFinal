@@ -4,7 +4,7 @@
 
     <item
             android:id="@+id/favourite_movies_toolbar_menu_button"
-            android:title="Favourite Movies"
+            android:title="Food Search"
             android:icon="@drawable/addmovie"
             app:showAsAction="never"/>
 

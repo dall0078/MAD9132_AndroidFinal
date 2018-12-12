@@ -43,7 +43,7 @@
     <string name="news_help_dialog_step_3">You can also see the article on cbc.ca by following the link on the details page.</string>
 
     <!--Movie Strings-->
-    <string name="movieHelpTitle">How To Use the CBC News Reader</string>
+    <string name="movieHelpTitle">How To Use the Movie Search App</string>
     <string name="movieAppAuthor">Author: Adam Nieuwenhuizen</string>
     <string name="movieAppVersion">Version: 1.0</string>
     <string name="movieHelpInstruction1">1. Enter a movie title into the search field and press search. This will give you a list of movies based on search criteria. </string>
@@ -53,6 +53,7 @@
     <string name="movieHelpInstruction5">5. Click on the Delete button on the Movie Details Page to delete movie from Favorites list.</string>
     <string name="movieHelpInstruction6">6. You can navigate to any of the other apps within the Movie Search App. </string>
     <string name="movie_saved_list_title">Favorite Movies</string>
+    <string name="movie_help_dialog_done">Done</string>
     <string name="searchBtn">Search</string>
 
 </resources>

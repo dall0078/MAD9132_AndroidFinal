@@ -60,7 +60,7 @@
             android:id="@+id/movieHelpInstruction5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/movieHelpInstruction4"
+            android:text="@string/movieHelpInstruction5"
             android:layout_marginBottom="12dp"/>
 
     <TextView

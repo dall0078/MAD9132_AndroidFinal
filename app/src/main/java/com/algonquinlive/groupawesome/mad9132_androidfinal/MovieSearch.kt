@@ -1,5 +1,6 @@
 package com.algonquinlive.groupawesome.mad9132_androidfinal
 
+import android.app.Activity
 import android.bluetooth.BluetoothA2dp
 import android.content.Context
 import android.content.Intent
@@ -7,31 +8,22 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
-import android.graphics.Movie
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
 import android.widget.*
-import com.algonquinlive.groupawesome.mad9132_androidfinal.R.id.nav_toolbar
-import kotlinx.android.synthetic.main.activity_movie_saved_list_main_row.*
 import kotlinx.android.synthetic.main.activity_movie_search.*
 import kotlinx.android.synthetic.main.activity_news_list.*
-import org.json.JSONObject
-import org.w3c.dom.Text
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
+import android.support.v7.widget.Toolbar
+import kotlinx.android.synthetic.main.activity_movie_details.*
 
 
 //----------------------------------------------------------------//
@@ -83,14 +75,21 @@ class MovieSearch : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_search)
 
+//        Toolbar
+        var movieSearchToolbar = findViewById<Toolbar>(R.id.movieSearchToolbar)
+        setSupportActionBar(movieSearchToolbar)
+
+
+//Progress bar
         var movieSearchProgressBar: ProgressBar = findViewById(R.id.movieSearchProgressBar)
         //movieSearchProgressBar = 0
-        movieSearchProgressBar.visibility = View.VISIBLE
+        movieSearchProgressBar.visibility = View.INVISIBLE
         movieTitle = findViewById(R.id.movie_search_input)
 
 
 
-        val searchButton = findViewById<Button>(R.id.searchForMovie)
+//        Movie Search Button Click Listener
+//        Fires when user enters movie title and presses search
         searchForMovie.setOnClickListener {
 
             val intent = Intent ()
@@ -101,15 +100,27 @@ class MovieSearch : AppCompatActivity() {
 //            Toast
             var inputToast = findViewById(R.id.movie_search_input) as EditText
             Toast.makeText(this, inputToast.text, Toast.LENGTH_SHORT).show()
+
+            val myQuery = MovieQuery()
+            myQuery.execute()
+
+        }
+
+        show_saved_movies_button.setOnClickListener {
+            val intent = Intent(this, MovieSavedList::class.java)
+
+            val showFavMovies = "Sent To Saved List"
+            Toast.makeText(this, showFavMovies, Toast.LENGTH_SHORT).show()
+
+            startActivity(intent)
+
+
+            Log.d("Starting Search", "Hopefully.")
         }
 
 
-//TODO: Fix navigation handler
-        //Navigation handler function, uses NavigationClickHandler Activity
-        //NavigationClickHandler(this).initializePage()
 
-
-
+            //initialize text views
             movieTitle = findViewById(R.id.movie_Title)
             movieReleaseDate = findViewById(R.id.movie_ReleaseDate)
             movieRating = findViewById(R.id.movie_Rating)
@@ -117,64 +128,30 @@ class MovieSearch : AppCompatActivity() {
             movieActors = findViewById(R.id.movie_Actors)
             moviePlot = findViewById(R.id.movie_Plot)
 
-
-//        TODO: DELETE THIS
-//        Send selected movie details to MovieDetails activity
-//            addMovieButton.setOnItemClickListener {_, _, position, _ ->
-//
-//            val intent = Intent(this, MovieDetails::class.java)
-//
-//            //movie data to be sent
-//            intent.putExtra("title",favoriteMovieListArray[position]?.movieTitle)
-//            intent.putExtra("release",favoriteMovieListArray[position]?.movieReleaseDate)
-//            intent.putExtra("rating",favoriteMovieListArray[position]?.movieRating)
-//            intent.putExtra("runtime",favoriteMovieListArray[position]?.movieRuntime)
-//            intent.putExtra("actors",favoriteMovieListArray[position]?.movieActors)
-//            intent.putExtra("plot",favoriteMovieListArray[position]?.moviePlot)
-//
-//
-//            startActivity(intent)
-//    }
-
-
-//        TODO: Finish this add movie intent
         //        Send selected movie details to MovieDetails activity
             addMovieButton.setOnClickListener {
 
-            val intent = Intent(this, MovieDetails::class.java)
-//
-//            //movie data to be sent
-//            intent.putExtra("title",favoriteMovieListArray)
-//            intent.putExtra("release",favoriteMovieListArray[position]?.movieReleaseDate)
-//            intent.putExtra("rating",favoriteMovieListArray[position]?.movieRating)
-//            intent.putExtra("runtime",favoriteMovieListArray[position]?.movieRuntime)
-//            intent.putExtra("actors",favoriteMovieListArray[position]?.movieActors)
-//            intent.putExtra("plot",favoriteMovieListArray[position]?.moviePlot)
+                val intent = Intent(this, MovieDetails::class.java)
+
+//                Send data to movie favorite list
+                intent.putExtra("title",movieTitle.text.toString())
+                intent.putExtra("release",movieReleaseDate.text.toString())
+                intent.putExtra("rating", movieRating.text.toString())
+                intent.putExtra("runtime", movieRuntime.text.toString())
+                intent.putExtra("actors", movieActors.text.toString())
+                intent.putExtra("plot", moviePlot.text.toString())
+                setResult(Activity.RESULT_OK, intent)
+
+                finish()
+
+//                Toast to show addition confirmation
                 val addConfirm = "Added movie to Favorites"
                 Toast.makeText(this, addConfirm, Toast.LENGTH_SHORT).show()
 //
             startActivity(intent)
     }
 
-
-        //----------- Set ToolBar -------------//
-
-        //Not fully implemented
-        //Toolbar Appears on screen, shows each activity, doesn't navigate yet
-        //searchtextview bleeds into it
-
-       val toolBar = nav_toolbar
-        setSupportActionBar(toolBar)
-
-
-
-        val myQuery = MovieQuery()
-        myQuery.execute()
-
         movieAdapter = MovieAdapter(this)
-        //listItem.adapter = movieAdapter
-
-
 
     }
 
@@ -192,13 +169,23 @@ class MovieSearch : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.favourite_movies_toolbar_menu_button -> {
-                var intent = Intent(this, MovieSavedList::class.java)
+                var intent = Intent(this, FoodSearch::class.java)
                 startActivity(intent)
             }
 
             R.id.foodHelpIcon -> {
-                var intent = Intent(this, FoodSearch::class.java)
-                startActivity(intent)
+                var dialogStuff = layoutInflater.inflate(R.layout.movie_help_dialog, null)
+
+                var builder =  AlertDialog.Builder(this)
+                builder.setTitle("About Movie Search")
+                builder.setView(dialogStuff) //insert view into dialog
+
+                // Add the buttons
+                builder.setPositiveButton(R.string.movie_help_dialog_done, {dialog, id -> })
+
+                // Create the AlertDialog
+                var dialog = builder.create()
+                dialog.show()
             }
 
             R.id.item_cbc -> {
@@ -227,6 +214,7 @@ class MovieSearch : AppCompatActivity() {
 
     inner class MovieAdapter(ctx: Context) : ArrayAdapter<MovieData>(ctx, 0) {
 
+         //var movieTitle: TextView? = null
 
 
         override fun getCount(): Int {
@@ -260,18 +248,12 @@ class MovieSearch : AppCompatActivity() {
 
     inner class MovieQuery : AsyncTask<String, Integer, String>() {
 
-        var movieTitle: String? = null
-        var movieReleaseDate: String? = null
-        var movieRating: String? = null
-        var movieRuntime: String? = null
-        var movieActors: String? = null
-        var moviePlot: String? = null
-
 
         var movie: MovieData? = null
         var movieSearchProgress = 0
 
         lateinit var bitmap: Bitmap
+
 
 
         override fun doInBackground(vararg params: String?): String {
@@ -303,12 +285,12 @@ class MovieSearch : AppCompatActivity() {
                         } else if (this.movie != null) {
                             when {
 
-                                xpp.name == "title" -> this.movie?.movieTitle = xpp.nextText() //grabs title from OMDB
-                                xpp.name == "year" -> this.movie?.movieReleaseDate = xpp.nextText() //grabs year from OMDB
-                                xpp.name == "rated" -> this.movie?.movieRating = xpp.nextText() //grabs rating from OMDB
-                                xpp.name == "runtime" -> this.movie?.movieRuntime = xpp.nextText() //grabs runtime from OMDB
-                                xpp.name == "actors" -> this.movie?.movieActors = xpp.nextText() //grabs actors from OMDB
-                                xpp.name == "plot" -> this.movie?.moviePlot = xpp.nextText() //grabs plot from OMDB
+                                xpp.name == "title" -> this.movie?.movieTitle = xpp.getAttributeValue(null, "title") //grabs title from OMDB
+                                xpp.name == "year" -> this.movie?.movieReleaseDate = xpp.getAttributeValue(null, "year") //grabs year from OMDB
+                                xpp.name == "rated" -> this.movie?.movieRating = xpp.getAttributeValue(null, "rated") //grabs rating from OMDB
+                                xpp.name == "runtime" -> this.movie?.movieRuntime = xpp.getAttributeValue(null, "runtime")//grabs runtime from OMDB
+                                xpp.name == "actors" -> this.movie?.movieActors = xpp.getAttributeValue(null, "actors") //grabs actors from OMDB
+                                //xpp.name == "plot" -> this.movie?.moviePlot = xpp.getText(null, "plot") //grabs plot from OMDB
                                 //xpp.name == "poster" -> this.movie?.moviePosterUrl = xpp.nextText() //grabs posterurl from OMDB
 
                             }
@@ -321,7 +303,7 @@ class MovieSearch : AppCompatActivity() {
                 XmlPullParser.END_TAG -> {
                     if (xpp.name == "movie") {
                         favoriteMovieListArray.add(this.movie)
-                        //this.movie = null
+                        this.movie = null
                     }
                 }
             }
@@ -338,6 +320,13 @@ class MovieSearch : AppCompatActivity() {
            // movieSearchProgressbar.visibility = View.INVISIBLE // hide progress bar
             movieSearchProgressBar.visibility = View.INVISIBLE
 
+            movie_Title.text = "Title: ${movieTitle}"
+            movie_ReleaseDate.text = "Release:  ${movieReleaseDate}"
+            movie_Actors.text = "Starring:  ${movieActors}"
+            movie_Plot.text = "Plot Summary: ${moviePlot} "
+            movie_Rating.text = "Rating: ${movieRating} "
+            movie_Runtime.text = "Runtime: ${movieRuntime} "
+            movieSearchProgressBar.visibility = View.INVISIBLE
 
 
 
@@ -348,13 +337,6 @@ class MovieSearch : AppCompatActivity() {
             super.onProgressUpdate(*values)
             movieSearchProgressBar.setProgress((movieSearchProgress))
             movieSearchProgressBar.visibility = View.VISIBLE
-
-            movie_Title.text = "Title: $movieTitle"
-            movie_ReleaseDate.text = "Release: $movieReleaseDate"
-            movie_Actors.text = "Starring: $movieActors"
-            movie_Plot.text = "Plot Summary: $moviePlot"
-            movie_Rating.text = "Rating: $movieRating"
-            movie_Runtime.text = "Runtime: $movieRuntime"
 
         }
 
