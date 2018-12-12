@@ -31,4 +31,20 @@
           android:orderInCategory="100"
           app:showAsAction="never" />
 
+    <item android:id="@+id/news_menu_saved_article_count"
+          android:title="Article Count"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/news_menu_saved_article_most_words"
+          android:title="Highest Word Count"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/news_menu_saved_article_least_words"
+          android:title="Lowest Word Count"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/news_menu_saved_article_average_words"
+          android:title="Average Word Count"
+          app:showAsAction="never" />
+
 </menu>
