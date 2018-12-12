@@ -54,7 +54,7 @@ class FoodDetails : AppCompatActivity() {
         foodCancelBtn.setOnClickListener {
             finish()
         }
-
+        NavigationClickHandler(this)
 
         var foodDeleteBtn = findViewById<Button>(R.id.foodDelBtn)
         foodDeleteBtn.setOnClickListener {
@@ -106,24 +106,6 @@ class FoodDetails : AppCompatActivity() {
                 // Create the AlertDialog
                 var dialog = builder.create()
                 dialog.show()
-            }
-
-            R.id.item_cbc ->{
-
-                var intent = Intent(this, NewsList::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_movie ->{
-
-                var intent = Intent(this, MovieSearch::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_bus ->{
-
-                var intent = Intent(this, BusSearch::class.java)
-                startActivity(intent)
             }
 
         }

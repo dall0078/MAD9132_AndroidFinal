@@ -56,7 +56,6 @@ class FoodSearch : AppCompatActivity() {
     var foodSearchProgress = 0
     var searchIsSucessful = false
     var foodToDeleteId : Int? = null
-    var changePosition = false
     var total = 0.00
 
     /**Food data class is a container used to hold food data
@@ -73,9 +72,7 @@ class FoodSearch : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_search)
 
-        var foodSearchToolbar = findViewById<Toolbar>(R.id.foodSearchToolbar)
-        setSupportActionBar(foodSearchToolbar)
-
+        NavigationClickHandler(this)
         foodName = findViewById<TextView>(R.id.foodName)
         foodCalories = findViewById<TextView>(R.id.foodCalories)
         foodFat = findViewById<TextView>(R.id.foodFat)
@@ -87,8 +84,6 @@ class FoodSearch : AppCompatActivity() {
             null, null,
             null, null, null,
             null)
-
-
 
         foodResults.moveToFirst()
         val idIndex = foodResults.getColumnIndex("_id") //get index of id column
@@ -126,6 +121,7 @@ class FoodSearch : AppCompatActivity() {
 
 
         foodAddBtn = findViewById<ImageButton>(R.id.foodAddBtn)
+        foodAddBtn.visibility = View.INVISIBLE
         foodAddBtn.setOnClickListener {
 
             if(searchIsSucessful){
@@ -142,6 +138,8 @@ class FoodSearch : AppCompatActivity() {
                 foodName.text = "Name:"
                 foodCalories.text = "Calories:"
                 foodFat.text = "Fat:"
+
+                foodAddBtn.visibility = View.INVISIBLE
 
                 //write to a database
                 val foodNewRow = ContentValues()
@@ -286,7 +284,7 @@ class FoodSearch : AppCompatActivity() {
         listAdapter = FoodAdapter(this)
         listItem?.adapter = listAdapter
 
-        onActivityResult(50, 2, intent)
+        onActivityResult(35, 2, intent)
     }
 
     /**called to show menu on a page
@@ -307,6 +305,12 @@ class FoodSearch : AppCompatActivity() {
              * @return Boolean*/
             override fun onQueryTextChange(newText: String): Boolean {
 
+                //resetting the values of these text views
+                foodName.text = "Name:"
+                foodCalories.text = "Calories:"
+                foodFat.text = "Fat:"
+
+                foodAddBtn.visibility = View.INVISIBLE
                 foodSearchInputValue = newText
 
                 return false
@@ -341,36 +345,17 @@ class FoodSearch : AppCompatActivity() {
 
                 var dialogStuff = layoutInflater.inflate(R.layout.food_help_dialog, null)
 
-                var builder =  AlertDialog.Builder(this)
+                var builder = AlertDialog.Builder(this)
                 builder.setTitle("About Food Analysis")
                 builder.setView(dialogStuff) //insert view into dialog
 
                 // Add the buttons
-                builder.setPositiveButton(R.string.food_help_dialog_done, {dialog, id -> })
+                builder.setPositiveButton(R.string.food_help_dialog_done, { dialog, id -> })
 
                 // Create the AlertDialog
                 var dialog = builder.create()
                 dialog.show()
             }
-
-            R.id.item_cbc ->{
-
-                var intent = Intent(this, NewsList::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_movie ->{
-
-                var intent = Intent(this, MovieSearch::class.java)
-                startActivity(intent)
-            }
-
-            R.id.item_bus ->{
-
-                var intent = Intent(this, BusSearch::class.java)
-                startActivity(intent)
-            }
-
         }
         return true
     }
@@ -544,12 +529,9 @@ class FoodSearch : AppCompatActivity() {
                 null, null, null,
                 null)
 
-        if(changePosition){
-            favouritesListArray.removeAt(foodItemPosition + 1)
-        }else{
             favouritesListArray.removeAt(foodItemPosition)
-        }
 
+            Log.i("from mobile", "$foodItemPosition")
             Log.i("FoodSearch", favouritesListArray.toString())
             listAdapter.notifyDataSetChanged() //reload the list
 
@@ -600,12 +582,9 @@ class FoodSearch : AppCompatActivity() {
 
             if(foodToDeleteId != 0){
 
-                changePosition = true
                 deleteFoodItem(foodToDeleteId)
             }
         }
-
-        changePosition = false
     }
 
     /**called to show summary of food items with similar tag name
